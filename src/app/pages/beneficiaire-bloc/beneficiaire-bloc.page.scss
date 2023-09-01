@@ -1,0 +1,21 @@
+  .btn-info {
+    color: white;
+    background-color: #0d3c68;
+    padding: 0px;
+  }
+  // Button
+  .btn-dimension {
+    height: 23px!important;
+    line-height: 23px!important;
+  }
+  /***
+  * Table dimension table
+  */
+  .table-bloc table {
+    .mat-column-action {
+      width: 70px;
+    }
+    .mat-column-code_bloc {
+      width: 100px;
+    }
+  }

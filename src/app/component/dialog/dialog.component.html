@@ -1,0 +1,40 @@
+<div class="content-dialog" fxLayout="column" fxLayoutGap="5px">
+  <div class="header-dialog">
+    <h5 *ngIf="isMepRP">Suppression MEP PMS</h5>
+    <h5 *ngIf="isSuiviRP">Suppression Suivi PMS</h5>
+    <h5 *ngIf="isDeletePms">Suppression PMS</h5>
+    <h5 *ngIf="isDeleteContrat">Suppression Contrat</h5>
+    <h5 *ngIf="isDeleteSuiviBloc">Suppression Suivi MEP de Bloc</h5>
+    <h6 *ngIf="isDeleteMepBloc">Suppression MEP Bloc</h6>
+    <h6 *ngIf="isDeleteBenefBloc">Suppression Bénéficiaire Bloc</h6>
+    <h6 *ngIf="isDeleteParceBloc">Suppression Parcelle Bloc</h6>
+    <h6 *ngIf="isDeleteMepPR">Suppression MEP PR</h6>
+    <h6 *ngIf="isDeleteSuiviPr">Suppression Suivi de MEP PR</h6>
+    <h6 *ngIf="isDeleteAnimeVePR">Suppression Animation/VE PR</h6>
+    <h6 *ngIf="isDeletePR">Suppression PR</h6>
+    <h6 *ngIf="isDeleteCepPR">Suppression CEP PR</h6>
+  </div>
+  <div class="content-dialog">
+    <span *ngIf="isMepRP">Voulez-vous vraiment supprimer la MEP du contrat {{element_mep.code_contrat_temp}}, Variete {{ element_mep.nom_espece }}?</span>
+    <span *ngIf="isSuiviRP">Voulez-vous Vraiment le suivi du ddp {{element_suivi.ddp}}?</span>
+    <span *ngIf="isDeletePms">Voulez-vous Vraiment supprimer le PMS {{element_pms.code_pms_temp}} {{element_pms.nom_benef}} {{element_pms.prenom}}?</span>
+    <span *ngIf="isDeleteContrat">Voulez-vous Vraiment supprimer le Contrat {{element_contrat.code_contrat}}, variete {{element_contrat.variette}}, Saison: {{element_contrat.saison}}?</span>
+    <span *ngIf="isDeleteSuiviBloc">Voulez-vous Vraiment supprimer le suivi du ddp {{elem_suivi_bloc.ddp}}, variete {{elem_suivi_bloc.variette}}?</span>
+    <span *ngIf="isDeleteMepBloc">Voulez-vous Vraiment supprimer la MEP du {{elem_mep_bloc.nom_var}}, Parcelle: {{elem_mep_bloc.code_parce_temp}}, Beneficiaire: {{elem_mep_bloc.code_benef_bl_temp}} _{{elem_mep_bloc.nom}}?</span>
+    <span *ngIf="isDeleteBenefBloc">Voulez-vous vraiment supprimer la/le bénéficiare {{elem_benef_bloc.code_benef_bl_temp}} _{{elem_benef_bloc.nom}} {{elem_benef_bloc.prenom}} </span>
+    <span *ngIf="isDeleteParceBloc">Voulez-vous vraiment supprimer le CEP {{elem_parce_bloc.code_parce_temp}}, superficie: {{elem_parce_bloc.superficie}}, PR: {{elem_parce_bloc.nom}}</span>
+    <span *ngIf="isDeleteMepPR">Voulez-vous vraiment Supprimer la MEP de la variété {{elem_mep_pr.variette}}, Parcelle: {{elem_mep_pr.code_parce_temp}} du Bénéficiare {{elem_mep_pr.nom}} {{elem_mep_pr.prenom}} </span>
+    <span *ngIf="isDeleteSuiviPr">Voulez-vous vraiment supprimer le suivi de la MEP du {{elem_suivi_pr.ddp}}, Variété: {{elem_suivi_pr.variette}}, Parcelle: {{elem_suivi_pr.code_parce_temp}} ?</span>
+    <h6 *ngIf="isDeleteAnimeVePR">Voulez-vous vraiment supprimer l'animation/VE du {{elem_animeVe_pr.date_anim}}, PR: {{elem_animeVe_pr.code_pr_temp}} _{{elem_animeVe_pr.nom}} {{elem_animeVe_pr.prenom}}</h6>
+    <h6 *ngIf="isDeletePR">Voulez-vous vraiment supprimer le Paysan Relais {{ elem_benef_pr.code_pr_temp }} _{{ elem_benef_pr.nom }} {{ elem_benef_pr.prenom }}</h6>
+    <h6 *ngIf="isDeleteCepPR">Voulez-vous vraiment supprimer le CEP {{ elem_cep_pr.code_parce_temp }}, superficie: {{ elem_cep_pr.superficie }} m² </h6>
+  </div>
+  <div class="btn-dialog" fxLayout="row" fxLayoutGap="5px" style="justify-content: flex-end;">
+    <div class="child-btn">
+      <button mat-button (click)="onCancel()">Annuler</button>
+    </div>
+    <div class="child-btn">
+      <button mat-button (click)="onConfirme()" style="background-color: rgb(151, 13, 13);color: white;">Supprimer</button>
+    </div>
+  </div>
+</div>

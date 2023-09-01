@@ -1,0 +1,39 @@
+// Accordion style
+ion-accordion {
+    margin: 0 auto;
+}
+
+ion-accordion.accordion-expanding ion-item.level1,
+ion-accordion.accordion-expanded ion-item.level1 {
+  --color: red;
+}
+ion-thumbnail {
+  --size: 30px;
+  --border-radius: 3px;
+}
+ion-item {
+  --background: #cac5c7;
+}
+// table
+.expended-element-detail table th.mat-header-cell:last-of-type, .expended-element-detail table td.mat-cell:last-of-type, .expended-element-detail table td.mat-footer-cell:last-of-type {
+  width: 100px;
+}
+.expended-element-detail table th.mat-header-cell:first-of-type, .expended-element-detail table td.mat-cell:first-of-type, .expended-element-detail table td.mat-footer-cell:first-of-type {
+  padding-left: 1px;
+  border-left: groove;
+  width: 80px;
+}
+.expended-element-detail table {
+  th.mat-header-cell.mat-column-saison {
+      width: 43px;
+  }
+  th.mat-header-cell.mat-column-ddp, th.mat-header-cell.mat-column-dds {
+      width: 80px;
+  }
+  th.mat-header-cell.mat-column-nbre_ligne, th.mat-header-cell.mat-column-long_ligne {
+      width: 63px;
+  }
+  th.mat-header-cell.mat-column-sc {
+      width: 50px;
+  }
+}

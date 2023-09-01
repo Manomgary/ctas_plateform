@@ -1,0 +1,7 @@
+{
+  "name": "_ctas_collecte",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,46 @@
+/**
+* Forme field
+*/
+::ng-deep {
+    /**
+    *appearance-legacy
+    */
+    .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+        /** same value in the mat-form-field-underline*/
+        padding-bottom: 0 !important;
+    }
+    .mat-form-field-appearance-legacy .mat-form-field-underline {
+        /** same value in the .mat-form-field-wrapper*/
+        bottom: 0 !important;
+    }
+    .mat-form-field-appearance-legacy .mat-select-arrow-wrapper {
+        vertical-align: inherit !important;
+    }
+    .mat-form-field-appearance-legacy .mat-form-field-infix {
+        padding: .3375em 0;
+        margin-top: -14px;
+    }
+}
+ion-thumbnail {
+    --size: 30px;
+    --border-radius: 3px;
+}
+.expended-element-detail table th.mat-header-cell:last-of-type, .expended-element-detail table td.mat-cell:last-of-type, .expended-element-detail table td.mat-footer-cell:last-of-type {
+    width: 100px;
+}
+.expended-element-detail table th.mat-header-cell:first-of-type, .expended-element-detail table td.mat-cell:first-of-type, .expended-element-detail table td.mat-footer-cell:first-of-type {
+    padding-left: 1px;
+    border-left: groove;
+    width: 80px;
+}
+.expended-element-detail table {
+    th.mat-header-cell.mat-column-img_cult {
+        width: 75px;
+    }
+    th.mat-header-cell.mat-column-declaration {
+        width: 70px;
+    }
+    th.mat-header-cell.mat-column-controle {
+        width: 70px;
+    }
+}

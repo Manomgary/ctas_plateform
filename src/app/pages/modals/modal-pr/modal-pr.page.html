@@ -1,0 +1,1282 @@
+<ion-header>
+  
+</ion-header>
+
+<ion-content>
+  <div fxLayoutAlign="center center" fxFlexFill class="container">
+    <mat-card class="modal-card-pr">
+      <mat-card-header [class.header-anime]="isAddAnimeVe || isEditAnimeVe" [class.header-row-modal1]="isAddBenef || isEditBenef || isMepPr" [class.header-row-modal2]="isCepPr || isParceBl || isParcePms || isSuiviMepPr || isSuiviMepBloc">
+        <mat-card-title>
+          <div class="content-header-modal width100"  fxLayoutAlign="center center" fxLayout="column">
+            <div *ngIf="isAddBenef && isBenefPms" fxLayout="row" fxLayoutAlign="center center">
+              <div class="child-row">
+                <mat-icon class="mat-icon-header">
+                  <ion-img src="../../../../assets/icon/Plus_48px.png"></ion-img>
+                </mat-icon>
+              </div>
+              <div class="child-row">
+                Ajouter PMS
+              </div>
+            </div>
+            <div *ngIf="isEditBenef && isBenefPms" fxLayout="row" fxLayoutAlign="center center">
+              <div class="child-row">
+                <mat-icon class="mat-icon-header">
+                  <ion-img src="../../../../assets/icon/edith.png"></ion-img>
+                </mat-icon>
+              </div>
+              <div class="child-row">
+                Editer PMS
+              </div>
+            </div>
+            <div *ngIf="isAddBenef && isBenefBloc" fxLayout="row" fxLayoutAlign="center center"> 
+              <div class="child-row">
+                <mat-icon class="mat-icon-header">
+                  <ion-img src="../../../../assets/icon/Plus_48px.png"></ion-img>
+                </mat-icon>
+              </div>
+              <div class="child-row">
+                Ajouter Bénéficiare
+              </div>
+            </div>
+            <div *ngIf="isEditBenef && isBenefBloc" fxLayout="row" fxLayoutAlign="center center">
+              <div class="child-row">
+                <mat-icon class="mat-icon-header">
+                  <ion-img src="../../../../assets/icon/edith.png"></ion-img>
+                </mat-icon>
+              </div>
+              <div class="child-row">
+                Editer Bénéficiare Bloc
+              </div>
+            </div>
+            <div *ngIf="isAddBenef && isBenefPr" fxLayout="row" fxLayoutAlign="center center">
+              <div class="child-row">
+                <mat-icon class="mat-icon-header">
+                  <ion-img src="../../../../assets/icon/Plus_48px.png"></ion-img>
+                </mat-icon>
+              </div>
+              <div class="child-row">
+                Ajouter Paysan Relais
+              </div>
+            </div>
+            <div *ngIf="isEditBenef && isBenefPr" fxLayout="row" fxLayoutAlign="center center">
+              <div class="child-row">
+                <mat-icon class="mat-icon-header">
+                  <ion-img src="../../../../assets/icon/edith.png"></ion-img>
+                </mat-icon>
+              </div>
+              <div class="child-row">
+                Editer Paysan Relais
+              </div>
+            </div>
+            <div *ngIf="isCepPr && isAddCepPr" fxLayout="row" fxLayoutAlign="center center">
+              <div class="child-row">
+                <mat-icon class="mat-icon-header">
+                  <ion-img src="../../../../assets/icon/Plus_48px.png"></ion-img>
+                </mat-icon>
+              </div>
+              <div class="child-row">
+                Ajouter Champs Ecole
+              </div>
+            </div>
+            <div *ngIf="isCepPr && isEditCepPr" fxLayout="row" fxLayoutAlign="center center">
+              <div class="child-row">
+                <mat-icon class="mat-icon-header">
+                  <ion-img src="../../../../assets/icon/edith.png"></ion-img>
+                </mat-icon>
+              </div>
+              <div class="child-row">
+                Editer Champs Ecole
+              </div>
+            </div>
+            <div *ngIf="isParceBl && isAddCepPr" fxLayout="row" fxLayoutAlign="center center">
+              <div class="child-row">
+                <mat-icon class="mat-icon-header">
+                  <ion-img src="../../../../assets/icon/Plus_48px.png"></ion-img>
+                </mat-icon>
+              </div>
+              <div class="child-row">
+                Ajouter Parcelle Bloc
+              </div>
+            </div>
+            <div *ngIf="isParceBl && isEditCepPr" fxLayout="row" fxLayoutAlign="center center">
+              <div class="child-row">
+                <mat-icon class="mat-icon-header">
+                  <ion-img src="../../../../assets/icon/edith.png"></ion-img>
+                </mat-icon>
+              </div>
+              <div class="child-row">
+                Editer Parcelle Bloc
+              </div>
+            </div>
+            <div *ngIf="isParcePms && isAddParcePms" fxLayout="row" fxLayoutAlign="center center">
+              <div class="child-row">
+                <mat-icon class="mat-icon-header">
+                  <ion-img src="../../../../assets/icon/Plus_48px.png"></ion-img>
+                </mat-icon>
+              </div>
+              <div class="child-row">
+                Ajouter Contrat PMS
+              </div>
+            </div>
+            <div *ngIf="isParcePms && isEditParcePms" fxLayout="row" fxLayoutAlign="center center">
+              <div class="child-row">
+                <mat-icon class="mat-icon-header">
+                  <img src="../../../../assets/icon/edith.png">
+                </mat-icon>
+              </div>
+              <div class="child-row">
+                Editer Contrat PMS
+              </div>
+            </div>
+            <div *ngIf="isMepPr" fxLayout="row" fxLayoutAlign="center center">
+              <div class="child-row">
+                <mat-icon class="mat-icon-header">
+                  <img src="../../../../assets/icon/Plus_48px.png" *ngIf="isAddMepSG || isAddMepPa || isAddMepMv">
+                  <img src="../../../../assets/icon/edith.png" *ngIf="isEditMepSG || isEditMepPa || isEditMepMv">
+                </mat-icon>
+              </div>
+              <div class="child-row">
+                <span *ngIf="isAddMepSG">
+                  Ajouter MEP Semences en graines [P.R]
+                </span>
+                <span *ngIf="isEditMepSG">
+                  Editer MEP Semences en graines [P.R]
+                </span>
+                <span *ngIf="isAddMepPa">
+                  Ajouter MEP Jeunes Plants [P.R]
+                </span>
+                <span *ngIf="isEditMepPa">
+                  Editer MEP Jeunes Plants [P.R]
+                </span>
+                <span *ngIf="isAddMepMv">
+                  Ajouter MEP Matériels vegetaux [P.R]
+                </span>
+                <span *ngIf="isEditMepMv">
+                  Editer MEP Matériels vegetaux [P.R]
+                </span>
+              </div>
+            </div>
+            <div *ngIf="isSuiviMepPr || isSuiviMepBloc" fxLayout="row" fxLayoutAlign="center center">
+              <div class="child-row">
+                <mat-icon class="mat-icon-header">
+                  <img src="../../../../assets/icon/Plus_48px.png" *ngIf="isAddMepSvSG || isAddMepSvPa || isAddMepSvMv">
+                  <img src="../../../../assets/icon/edith.png" *ngIf="isEditMepSvSG || isEditMepSvPa || isEditMepSvMv">
+                </mat-icon>
+              </div>
+              <div class="child-row">
+                <span *ngIf="isAddMepSvSG">
+                  Ajouter suivi de Semences en graines 
+                </span>
+                <span *ngIf="isEditMepSvSG">
+                  Editer suivi de Semences en graines
+                </span>
+                <span *ngIf="isAddMepSvPa">
+                  Ajouter suivi de Jeunes Plants
+                </span>
+                <span *ngIf="isEditMepSvPa">
+                  Editer suivi de Jeunes Plants
+                </span>
+                <span *ngIf="isAddMepSvMv">
+                  Ajouter suivi de Matériels vegetaux
+                </span>
+                <span *ngIf="isEditMepSvMv">
+                  Editer suivi de Matériels vegetaux
+                </span>
+              </div>
+            </div>
+            <div *ngIf="isAddAnimeVe || isEditAnimeVe" fxLayout="row" fxLayoutAlign="center center">
+              <div class="child-row">
+                <mat-icon class="mat-icon-header">
+                  <img src="../../../../assets/icon/Plus_48px.png" *ngIf="isAddAnimeVe">
+                  <img src="../../../../assets/icon/edith.png" *ngIf="isEditAnimeVe">
+                </mat-icon>
+              </div>
+              <div class="child-row">
+                <span *ngIf="isAddAnimeVe">
+                  Ajouter Animation/VE 
+                </span>
+                <span *ngIf="isEditAnimeVe">
+                  Editer Animation/VE
+                </span>
+              </div>
+            </div>
+          </div>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+          <!--Beneficiaire-->
+        <div  *ngIf="isAddBenef || isEditBenef">
+          <form [formGroup]="beneficiaireForm" class="contonair-flex" (ngSubmit)="onSave('beneficiaire')">
+            <div class="content-formulaire">
+              <div class="content-flex-column" fxLayout="column" fxLayoutGap="10px">
+                <!--Column Asoociation-->
+                <div class="child-column" fxLayout="row" fxLayoutGap="20px" *ngIf="isBenefBloc || isBenefPms">
+                  <div class="child-column" *ngIf="isBenefPms">
+                    <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                      <mat-label>Association</mat-label>
+                      <mat-select formControlName="association">
+                        <mat-option *ngFor="let assoc of data_association" [value]="assoc">
+                          {{ assoc.nom_ass }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="child-column" *ngIf="isBenefBloc">
+                    <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                      <mat-label>Bloc</mat-label>
+                      <mat-select formControlName="bloc">
+                        <mat-option *ngFor="let bloc_ of data_bloc_benef" [value]="bloc_">
+                          {{ bloc_.nom_bloc }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="child-column">
+                    <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                      <mat-label>Type</mat-label>
+                      <mat-select formControlName="collaborateur">
+                        <mat-option *ngFor="let collab of data_collaborateur" [value]="collab">
+                          {{ collab.nom }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!--Column Beneficiaire-->
+                <div class="content-row" fxLayout="row" fxLayoutGap="20px">
+                  <!--Row 1-->
+                  <div class="content-child-row-1" fxLayout="column" fxLayoutGap="8px">
+                      <!--Formulaire Village-->
+                    <div class="child-row-flex">
+                      <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                        <mat-label>Code achat</mat-label>
+                        <input matInput type="text" placeholder="Merci de saisissez!" formControlName="code_achat">
+                      </mat-form-field>
+                    </div>
+                    <!--Formulaire surnom-->
+                    <div class="child-row-flex">
+                      <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                        <mat-label>Surnom</mat-label>
+                        <input matInput placeholder="Merci de saisissez!" formControlName="surnom">
+                      </mat-form-field>
+                    </div>
+                    <!--Formulaire Cin-->
+                    <div class="child-row-flex">
+                      <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                        <mat-label>Cin</mat-label>
+                        <input matInput type="number" placeholder="Merci de saisissez!" formControlName="cin">
+                      </mat-form-field>
+                    </div>
+                    <!--Formulaire Region-->
+                    <div class="child-row-flex">
+                      <mat-form-field appearance="outline" floatLabel="auto" class="custom-mat-field-outline">
+                        <mat-label>Region</mat-label>
+                        <mat-select formControlName="region">
+                          <mat-option (click)="onSelectRegion()" *ngFor="let reg of data_region" [value]="reg">
+                            {{ reg.nom_reg }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <!--Formulaire Fokontany-->
+                    <div class="child-row-flex" fxLayout="row">
+                      <div class="child-row">
+                        <mat-form-field appearance="outline" floatLabel="auto" class="custom-mat-field-outline">
+                          <mat-label>Fokontany</mat-label>
+                          <mat-select formControlName="fokontany">
+                            <mat-option (click)="onSelectFokontany('autres')">Autres</mat-option>
+                            <mat-option (click)="onSelectFokontany('fokontany')" *ngFor="let fkt of data_fokontany_filter" [value]="fkt">
+                              {{ fkt.nom_fkt }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <!--Formulaire Village-->
+                    <div class="child-row-flex" *ngIf="isAutresFkt">
+                      <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                        <mat-label>Village</mat-label>
+                        <input matInput type="text" placeholder="Merci de saisissez!" formControlName="village">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <!--***********Row 2****************-->
+                  <div class="content-child-row-1" fxLayout="column" fxLayoutGap="8px">
+                    <!--Formulaire Nom-->
+                    <div class="child-row-flex">
+                      <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                        <mat-label>Nom</mat-label>
+                        <input matInput placeholder="Merci de saisissez!" formControlName="nom">
+                      </mat-form-field>
+                    </div>
+                    <!--Formulaire Sexe-->
+                    <div class="child-row-flex">
+                      <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                        <mat-label>Sexe</mat-label>
+                        <mat-select formControlName="sexe">
+                          <mat-option *ngFor="let sexe of data_sexe" [value]="sexe.value">
+                            {{ sexe.description }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                      <!--Formulaire Date de délivrance-->
+                    <div class="child-row-flex">
+                      <mat-form-field appearance="fill" class="custom-mat-date">
+                        <mat-label>Date de délivrance(jj/mm/AA)</mat-label>
+                        <input matInput [matDatepicker]="dt_del" formControlName="dt_delivrance">
+                        <!--<mat-hint>JJ/MM/AAAA(ex:31/12/1975)</mat-hint>-->
+                        <mat-datepicker-toggle matSuffix [for]="dt_del" disabled></mat-datepicker-toggle>
+                        <mat-datepicker #dt_del disabled="false"></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                    <!--Formulaire District-->
+                    <div class="child-row-flex">
+                      <mat-form-field appearance="outline" floatLabel="auto" class="custom-mat-field-outline">
+                        <mat-label>District</mat-label>
+                        <mat-select formControlName="district">
+                          <mat-option (click)="onSelectDistrict()" *ngFor="let dist of data_district_filter" [value]="dist">
+                            {{ dist.nom_dist }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <!--Formulaire contact-->
+                    <div class="child-row-flex">
+                      <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                        <mat-label>Contact</mat-label>
+                        <input matInput type="number" placeholder="Merci de saisissez!" formControlName="contact">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <!--*********Row 3******-->
+                  <div class="content-child-row-1" fxLayout="column" fxLayoutGap="8px">
+                    <!--Formulaire Prenom-->
+                    <div class="child-row-flex">
+                      <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                        <mat-label>Prenom</mat-label>
+                        <input matInput placeholder="Merci de saisissez!" formControlName="prenom">
+                      </mat-form-field>
+                    </div>
+                    <!--Row date de naissance-->
+                    <div class="child-row" fxLayout="row" fxLayoutGap="1px">
+                      <!--Checkbox Vers-->
+                      <div class="child-row-flex">
+                        <mat-checkbox class="example-margin" formControlName="isDtVers">Vers</mat-checkbox>
+                      </div>
+                      <!--Formulaire Date de naissance-->
+                      <div class="child-row-flex" *ngIf="!beneficiaireForm.value.isDtVers">
+                        <mat-form-field appearance="fill" class="custom-mat-date">
+                          <mat-label>Date de naissance(jj/mm/AA)</mat-label>
+                          <input matInput [matDatepicker]="dt_nais" formControlName="dt_naissance">
+                          <!--<mat-hint>JJ/MM/AAAA(ex:31/12/1975)</mat-hint>-->
+                          <mat-datepicker-toggle matSuffix [for]="dt_nais" disabled></mat-datepicker-toggle>
+                          <mat-datepicker #dt_nais disabled="false"></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                      <!--Formulaire Date de naissance vers-->
+                      <div class="child-row-flex" *ngIf="beneficiaireForm.value.isDtVers">
+                        <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                          <mat-label>Vers</mat-label>
+                          <input matInput type="number" placeholder="Merci de saisissez!" formControlName="dt_naissance_vers">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <!--Formulaire Lieu délivrance-->
+                    <div class="child-row-flex" fxLayout="row" fxLayoutGap="10px">
+                      <div>
+                        <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                          <mat-label>Lieu delivrance</mat-label>
+                          <input matInput type="text" placeholder="Merci de saisissez!" formControlName="lieu_delivrance">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <!--Formulaire Commune-->
+                    <div class="child-row-flex">
+                      <mat-form-field appearance="outline" floatLabel="auto" class="custom-mat-field-outline">
+                        <mat-label>Commune</mat-label>
+                        <mat-select formControlName="commune">
+                          <mat-option (click)="onSelectCommune()" *ngFor="let com of data_commune_filter" [value]="com">
+                            {{ com.nom_com }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <!--Column Image-->
+                <div class="child-column" fxLayout="row" fxLayoutGap="80px">
+                  <!--Row cin-->
+                  <div class="child-row" fxLayout="column">
+                    <div class="child-column-3 ion-text-center" style="font-size: 15px; color: #3538e2;">
+                      Image CIN
+                    </div>
+                    <div class="child-column-3">
+                      <div class="child-row" fxLayout="row" fxLayoutGap="3px">
+                        <!--Formulaire Image cin 1-->
+                        <div class="child-row-flex" fxLayout="row" fxLayoutAlign="center center">
+                          <div class="child-row" fxLayout="column">
+                            <div class="child-column">
+                              <ion-button fill="clear" expand="full" color="blue" (click)="takeImage('img-cin1')">
+                                <ion-icon slot="start" name="camera"></ion-icon>Prendre photos
+                              </ion-button>
+                            </div>
+                            <div class="child-column">
+                              <ion-button fill="clear" expand="full" color="blue" (click)="importImage('img-cin1')">
+                                <ion-icon slot="start" name="camera"></ion-icon>Import
+                              </ion-button>
+                            </div>
+                          </div>
+                          <div class="child-row">
+                            <ion-thumbnail slot="start">
+                              <ion-img [src]="fileImage_cin1.data"></ion-img>
+                            </ion-thumbnail>
+                          </div>
+                        </div>
+                        <!--Formulaire Image cin 2-->
+                        <div class="child-row-flex" fxLayout="row" fxLayoutAlign="center center">
+                          <div class="child-row" fxLayout="column">
+                            <div class="child-column">
+                              <ion-button fill="clear" expand="full" color="blue" (click)="takeImage('img-cin2')">
+                                <ion-icon slot="start" name="camera"></ion-icon>Prendre photos
+                              </ion-button>
+                            </div>
+                            <div class="child-column">
+                              <ion-button fill="clear" expand="full" color="blue" (click)="importImage('img-cin2')">
+                                <ion-icon slot="start" name="camera"></ion-icon>Importer
+                              </ion-button>
+                            </div>
+                          </div>
+                          <div class="child-row">
+                            <ion-thumbnail slot="start">
+                              <ion-img [src]="fileImage_cin2.data"></ion-img>
+                            </ion-thumbnail>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Row image-->
+                  <div class="child-row" fxLayout="column">
+                    <div class="child-column-3 ion-text-center" style="font-size: 15px; color: #3538e2;">
+                      Photo bénéficiaire
+                    </div>
+                    <div class="child-column-3">
+                      <!--Formulaire Image PR-->
+                      <div class="child-row-flex" fxLayout="row" fxLayoutAlign="center center">
+                        <div class="child-row" fxLayout="column">
+                          <div class="child-column">
+                            <ion-button fill="clear" expand="full" color="blue" (click)="takeImage('img-pr')">
+                              <ion-icon slot="start" name="camera"></ion-icon>Prendre photos
+                            </ion-button>
+                          </div>
+                          <div class="child-column">
+                            <ion-button fill="clear" expand="full" color="blue" (click)="importImage('img-pr')">
+                              <ion-icon slot="start" name="camera"></ion-icon>Importer
+                            </ion-button>
+                          </div>
+                        </div>
+                        <div class="child-row">
+                          <ion-thumbnail slot="start">
+                            <ion-img [src]="fileImage_pr.data"></ion-img>
+                          </ion-thumbnail>
+                        </div>                
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--Column boutton-->
+                <div class="child-btn" fxLayout="row" fxLayoutGap="15px">
+                  <div class="child-row1">
+                    <button mat-raised-button (click)="onDismiss()" class="btn-annuler">Annuller</button>
+                  </div>
+                  <div class="child-row1">
+                    <button mat-raised-button class="btn-valider" type="submit" [disabled]="!beneficiaireForm.valid || isValidate">Valider</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+                <!--CEP PR et PMS-->
+        <div [formGroup]="isCepPr || isParceBl?cepForm:parcePms" *ngIf="isCepPr || isParceBl || isParcePms">
+          <div class="content-formulaire">
+            <div class="content-flex-column" fxLayout="column" fxLayoutGap="13px">
+              <div class="child-flex" fxLayout="row" *ngIf="isParcePms" fxLayoutGap="25px">
+                <div class="hild-row">
+                  <mat-form-field appearance="outline" floatLabel="auto" class="custom-mat-field-outline">
+                    <mat-label>Année Agricole</mat-label>
+                    <mat-select formControlName="annee">
+                      <mat-option *ngFor="let annee of data_annee_agricole" [value]="annee">
+                        {{ annee.annee_du }}-{{ annee.annee_au }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="hild-row">
+                  <mat-form-field appearance="outline" floatLabel="auto" class="custom-mat-field-outline">
+                    <mat-label>Saison</mat-label>
+                    <mat-select formControlName="saison">
+                      <mat-option></mat-option>
+                      <mat-option *ngFor="let saison of data_saison" [value]="saison">
+                        {{ saison.description }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>	
+                </div>
+                <div class="hild-row">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Espece</mat-label>
+                    <mat-select formControlName="espece">
+                      <mat-option (click)="onSelectEspece('espece')" *ngFor="let espece of data_espece_filter" [value]="espece">
+                        {{ espece.nom_espece }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="child-row" fxLayout="row" *ngIf="isParcePms" fxLayoutGap="25px">
+                <div class="child-row">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Variette</mat-label>
+                    <mat-select formControlName="variette">
+                      <mat-option *ngFor="let variette of data_variette_filter" [value]="variette">
+                        {{ variette.nom_var }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="child-row">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Objectif <span *ngIf="unite_objectif != null">en {{unite_objectif}}</span> </mat-label>
+                    <input matInput type="number" placeholder="Objectif selon votre unité" formControlName="objectif">
+                  </mat-form-field>
+                </div>
+                <div class="child-row">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Parcelle</mat-label>
+                    <mat-select formControlName="parcelle">
+                      <mat-option (click)="onSelectParcePms('definir')" *ngIf="isParcePms" [value]="'definir'">A définir</mat-option>
+                      <mat-option (click)="onSelectParcePms('nouveau')" *ngIf="isParcePms" [value]="'nouveau'">Nouveau Parce</mat-option>
+                      <mat-option *ngFor="let parce of parce_pms" (click)="onSelectParcePms('existe')" [value]="parce">
+                        {{ parce.code_parce_temp }}::{{parce.annee_du}}-{{parce.annee_au}}_{{parce.saison}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Column pour Parcelle exister dans la bdd-->
+              <div class="child-column" fxLayout="row" *ngIf="isParcePms && isExistParcePms" fxLayoutGap="25px">
+                <div class="child-row">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <input matInput type="text" placeholder="Ref_gps!" formControlName="ref_gps_saison">
+                  </mat-form-field>
+                </div>
+                <div class="child-row">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Latitude</mat-label>
+                    <input matInput type="number" placeholder="Merci de saisissez!" formControlName="latitude_saison">
+                  </mat-form-field>
+                </div>
+                <div class="child-row">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Longitude</mat-label>
+                    <input matInput type="number" placeholder="longitude!" formControlName="longitude_saison">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Column Bloc, Ref_gps, Latitude-->
+              <div class="child-column" fxLayout="row" *ngIf="isCepPr || isParceBl || (isParcePms && isNewParcePms)" fxLayoutGap="25px">
+                <div class="child-row" *ngIf="isCepPr || isParceBl">
+                  <mat-form-field appearance="outline" floatLabel="auto" *ngIf="isCepPr" class="custom-mat-field-outline">
+                    <mat-label>Bloc</mat-label>
+                    <mat-select formControlName="bloc">
+                      <mat-option (click)="onSelectNone('bloc-cep')">Aucune</mat-option>
+                      <mat-option *ngFor="let bloc of data_bloc" [value]="bloc">
+                        {{ bloc.nom }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" floatLabel="auto" *ngIf="isParceBl" class="custom-mat-field-outline">
+                    <mat-label>Bloc</mat-label>
+                    <mat-select formControlName="bloc" disabled="true">
+                      <mat-option (click)="onSelectNone('bloc-cep')">Aucune</mat-option>
+                      <mat-option *ngFor="let bloc of data_bloc_benef" [value]="bloc">{{ bloc.nom_bloc }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="child-row">
+                  <mat-form-field appearance="outline" *ngIf="isCepPr || (isParcePms && isNewParcePms)" class="custom-mat-field-outline">
+                    <mat-label>References gps</mat-label>
+                    <input matInput type="text" placeholder="Ref_gps!" formControlName="ref_gps">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" *ngIf="isParceBl" class="custom-mat-field-outline">
+                    <mat-label>Numero Parcelle</mat-label>
+                    <input matInput type="number" placeholder="Merci de saisir un nombre!" formControlName="code_parce_temp">
+                  </mat-form-field>
+                </div>
+                <div class="child-row">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Latitude</mat-label>
+                    <input matInput type="number" placeholder="Merci de saisissez!" formControlName="latitude">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--column Long, Superficie, Region-->
+              <div class="child-column" fxLayout="row" *ngIf="isCepPr || isParceBl || (isParcePms && isNewParcePms)" fxLayoutGap="25px">
+                <div class="child-row">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Longitude</mat-label>
+                    <input matInput type="number" placeholder="longitude!" formControlName="longitude">
+                  </mat-form-field>
+                </div>
+                <div class="child-row">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Superficie (m²)</mat-label>
+                    <input matInput type="number" placeholder="superficie!" formControlName="superficie">
+                  </mat-form-field>
+                </div>
+                <div class="child-row">
+                  <mat-form-field appearance="outline" floatLabel="auto" class="custom-mat-field-outline">
+                    <mat-label>Région</mat-label>
+                    <mat-select formControlName="region">
+                      <mat-option (click)="onSelectRegion()" *ngFor="let reg of data_region" [value]="reg">
+                        {{ reg.nom_reg }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--column District, Commune, Fokontanu, village-->
+              <div class="child-column" fxLayout="row" *ngIf="isCepPr || isParceBl || (isParcePms && isNewParcePms)" fxLayoutGap="25px">
+                <div class="child-row">
+                  <mat-form-field appearance="outline" floatLabel="auto" class="custom-mat-field-outline">
+                    <mat-label>District</mat-label>
+                    <mat-select formControlName="district">
+                      <mat-option (click)="onSelectDistrict()" *ngFor="let dist of data_district_filter" [value]="dist">
+                        {{ dist.nom_dist }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="child-row">
+                  <mat-form-field appearance="outline" floatLabel="auto" class="custom-mat-field-outline">
+                    <mat-label>Commune</mat-label>
+                    <mat-select formControlName="commune">
+                      <mat-option (click)="onSelectCommune()" *ngFor="let com of data_commune_filter" [value]="com">
+                        {{ com.nom_com }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="child-row" fxLayout="row">
+                  <div class="child-row-flex">
+                    <mat-form-field appearance="outline" floatLabel="auto" class="custom-mat-field-outline">
+                      <mat-label>Fokontany</mat-label>
+                      <mat-select formControlName="fokontany">
+                        <mat-option (click)="onSelectFokontany('autres')" *ngIf="data_commune_filter.length > 0">Autres</mat-option>
+                        <mat-option (click)="onSelectFokontany('fokontany')" *ngFor="let fkt of data_fokontany_filter" [value]="fkt">
+                          {{ fkt.nom_fkt }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <!--Column Village et indication-->
+              <div class="child-row" fxLayout="row" fxLayoutGap="25px">
+                <!--Formulaire Village-->
+                <div class="child-row-flex" *ngIf="isAutresFkt">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Village</mat-label>
+                    <input matInput type="text" placeholder="Merci de saisissez!" formControlName="village">
+                  </mat-form-field>
+                </div>
+                <div class="child-row-flex" *ngIf="isParceBl">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Indication</mat-label>
+                    <input matInput type="text" placeholder="indication du parcelle ou surnom!" formControlName="indication">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Bouton-->
+              <div class="child-column" fxLayout="row" fxLayoutGap="15px">
+                <div class="child-row">
+                  <button mat-raised-button (click)="onDismiss()" class="btn-annuler">Annuler</button>         
+                </div>
+                <div class="child-row">
+                  <button mat-raised-button (click)="onSaveCep()" class="btn-valider" [disabled]="isCepPr || isParceBl?(!cepForm.valid):(!parcePms.valid)">Valider</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Animation  Visite Echange-->
+        <div *ngIf="isAddAnimeVe || isEditAnimeVe">
+          <form [formGroup]="animeVeForm" class="contonair-flex">
+            <div fxLayout="column width100" fxLayoutGap="13px">
+              <!--Column 1-->
+              <div class="child-column-flex" fxLayout="row" fxLayoutGap="25px">
+                <!--Formulaire Pr-->
+                <div class="child-row-flex">
+                  <mat-form-field appearance="outline" floatLabel="auto" class="custom-mat-field-outline">
+                    <mat-label>Paysan Relais</mat-label>
+                    <mat-select formControlName="pr">
+                      <mat-option *ngFor="let pr of data_pr" [value]="pr">
+                        {{pr.code_pr_temp}}:_{{ pr.nom }} {{ pr.prenom }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <!--Formulaire Date animation-->
+                <div class="child-row-flex">
+                  <mat-form-field appearance="fill" class="custom-mat-date">
+                    <mat-label>Date Animation</mat-label>
+                    <input matInput [matDatepicker]="dt_anime" formControlName="dt_anime">
+                    <mat-datepicker-toggle matSuffix [for]="dt_anime"></mat-datepicker-toggle>
+                    <mat-datepicker #dt_anime disabled="false"></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <!--Formulaire Region-->
+                <div class="child-row-flex">
+                  <mat-form-field appearance="outline" floatLabel="auto" class="custom-mat-field-outline">
+                    <mat-label>Region</mat-label>
+                    <mat-select formControlName="region">
+                      <mat-option (click)="onSelectRegion()" *ngFor="let reg of data_region" [value]="reg">
+                        {{ reg.nom_reg }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Column 2-->
+              <div class="child-column-flex" fxLayout="row" fxLayoutGap="25px">
+                <!--Formulaire District-->
+                <div class="child-row-flex">
+                  <mat-form-field appearance="outline" floatLabel="auto" class="custom-mat-field-outline">
+                    <mat-label>District</mat-label>
+                    <mat-select formControlName="district">
+                      <mat-option (click)="onSelectDistrict()" *ngFor="let dist of data_district_filter" [value]="dist">
+                        {{ dist.nom_dist }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <!--Formulaire Commune-->
+                <div class="child-row-flex">
+                  <mat-form-field appearance="outline" floatLabel="auto" class="custom-mat-field-outline">
+                    <mat-label>Commune</mat-label>
+                    <mat-select formControlName="commune">
+                      <mat-option (click)="onSelectCommune()" *ngFor="let com of data_commune_filter" [value]="com">
+                        {{ com.nom_com }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <!--Formulaire Fokontany-->
+                <div class="child-row-flex">
+                  <mat-form-field appearance="outline" floatLabel="auto" class="custom-mat-field-outline">
+                    <mat-label>Fokontany</mat-label>
+                    <mat-select formControlName="fokontany">
+                      <mat-option (click)="onSelectFokontany('autres')" *ngIf="data_commune_filter.length !== 0">Autres</mat-option>
+                      <mat-option (click)="onSelectFokontany('fokontany')" *ngFor="let fkt of data_fokontany_filter" [value]="fkt">
+                        {{ fkt.nom_fkt }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <!--Formulaire Village-->
+                <div class="child-row-flex" *ngIf="isAutresFkt">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Village</mat-label>
+                    <input matInput type="text" placeholder="Merci de saisissez!" formControlName="village">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Column 3-->
+              <div class="child-column-flex" fxLayout="row" fxLayoutGap="25px">
+                <div class="child-row-flex">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Nb Participant</mat-label>
+                    <input matInput type="number" placeholder="Merci de saisissez!" formControlName="nb_participant">
+                  </mat-form-field>
+                </div>
+                <!--Formulaire Nb Femme-->
+                <div class="child-row-flex">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Nb Femme</mat-label>
+                    <input matInput type="number" placeholder="Merci de saisissez!" formControlName="nb_femme">
+                  </mat-form-field>
+                </div>
+                <!--Formulaire Nb Homme-->
+                <div class="child-row-flex">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Nb Homme</mat-label>
+                    <input matInput type="number" placeholder="Merci de saisissez!" formControlName="nb_homme">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Column 4-->
+              <div class="child-column-flex" fxLayout="row" fxLayoutGap="25px">
+                <!--Formulaire Nb inferieur 25-->
+                <div class="child-row-flex">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Nb Inferieur 25 ans</mat-label>
+                    <input matInput type="number" placeholder="Merci de saisissez!" formControlName="nb_inf_25">
+                  </mat-form-field>
+                </div>
+                <!--Formulaire Image pièce joint-->
+                <div class="child-row-flex" fxLayout="column" fxLayoutAlign="center center">
+                  <div class="child-column">
+                    <ion-button fill="clear" expand="full" color="blue" (click)="takeImage('img-piece')" [disabled]="img_piece.length == 2">
+                      <ion-icon slot="start" name="camera"></ion-icon>Ajouter des images(pièces)
+                    </ion-button>
+                  </div>
+                  <div class="child-row-flex" fxLayout="row" fxLayoutGap="5px">
+                    <div class="fex-column" fxLayout="row" *ngFor="let img of img_piece">
+                      <div class="child-row">
+                        <button mat-icon-button icon-only class="btn-icon-delete" (click)="onDeleteImgPiece(img)">
+                          <mat-icon>
+                            <img src="../../../../assets/icon/delete.png" alt="">
+                          </mat-icon>
+                        </button>
+                      </div>
+                      <div class="child-row">
+                        <ion-thumbnail slot="start">
+                          <ion-img [src]="img.data"></ion-img>
+                        </ion-thumbnail>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--Column Speculation-->
+              <div class="child-row-flex" fxLayout="column" fxLayoutGap="5px">
+                <div class="child-column">
+                  <button mat-flat-button class="btn-info btn-dimension" (click)="onAddSpecu()">
+                    Ajouter de speculations
+                  </button>
+                </div>
+                <!--Column 5 Speculation-->
+                <div class="child-column-flex" fxLayout="row" *ngIf="isAddSpecu" fxLayoutGap="5px">
+                  <div class="child-row-flex">
+                    <mat-form-field appearance="outline" class="custom-mat-field-outline" style="width: 160px;">
+                      <mat-label>Categrie</mat-label>
+                      <mat-select [(value)]="selected_categorie">
+                        <mat-option (click)="onSeletCateg('')" *ngFor="let catego of data_categ" [value]="catego">
+                          {{ catego.libelle }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="child-row-flex">
+                    <mat-form-field appearance="outline" class="custom-mat-field-outline" style="width: 160px;">
+                      <mat-label>Espece</mat-label>
+                      <mat-select [(value)]="selected_espece">
+                        <mat-option (click)="onSelectEspece('')" *ngFor="let espece of data_espece_filter" [value]="espece">
+                          {{ espece.nom_espece }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="child-row-flex">
+                    <!--Formulaire 3-->
+                    <mat-form-field appearance="outline" class="custom-mat-field-outline" style="width: 160px;">
+                      <mat-label>Variette</mat-label>
+                      <mat-select [(value)]="selected_variette">
+                        <mat-option *ngFor="let variette of data_variette_filter" [value]="variette">
+                          {{ variette.nom_var }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>	
+                  </div>
+                  <div class="child-row-flex">
+                    <!--Formulaire 3-->
+                    <mat-form-field appearance="outline" class="custom-mat-field-outline" style="width: 110px;">
+                      <mat-label>Quantité <span *ngIf="unite_espece != null">en {{unite_espece}} </span> </mat-label>
+                      <input matInput type="number" placeholder="Merci de saisissez!" formControlName="quantite_specu">
+                    </mat-form-field>
+                  </div>
+                  <div fxLayout="row" fxLayoutGap="2px">
+                    <div class="child-row1">
+                      <button mat-icon-button ion-button icon-only class="btn-cancel" (click)="onCancelSpecu()">
+                        <mat-icon>
+                          <img src="../../../../assets/icon/cancel_48px.png" alt="annuler">
+                        </mat-icon>
+                      </button>
+                    </div>
+                    <div class="child-row1">
+                      <button mat-icon-button icon-only class="btn-done" (click)="onSaveSpecu()">
+                        <mat-icon>
+                          <img src="../../../../assets/icon/Ok_48px.png" alt="">
+                        </mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <!--Column 7 Speculation-->
+                <div class="child-column-flex" fxLayout="column" *ngIf="data_speculation.length != 0" fxLayoutGap="5px">
+                  <div class="child-column" fxLayout="row" *ngFor="let specu of data_speculation">
+                    <div>
+                      {{ specu.espece.nom_espece }} {{ specu.variette != null?specu.variette.nom_var:'' }}::
+                    </div>
+                    <div>
+                      {{ specu.quantite }}  {{specu.espece.unite}}
+                    </div>
+                    <div>
+                      <button mat-icon-button icon-only class="btn-icon-delete" (click)="onDeleteSpecu(specu)">
+                        <mat-icon>
+                          <img src="../../../../assets/icon/delete.png" alt="">
+                        </mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--Column boutton-->
+              <div class="child-btn" fxLayout="row" fxLayoutGap="10px">
+                <div class="child-row1">
+                  <button mat-raised-button class="btn-annuler" (click)="onDismiss()">Annuler</button>
+                </div>
+                <div class="child-row1">
+                  <button mat-raised-button class="btn-valider" (click)="onSave('animationVe')" [disabled]="!animeVeForm.valid || isValidate">Valider</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!--MEP PR-->
+        <div [formGroup]="mepForm" *ngIf="isMepPr" fxLayout="column" fxLayoutGap="13px">
+          <!--Column Annee, saison, Beneficiaire-->
+          <div class="child-column-1" fxLayout="row" fxLayoutGap="25px">
+            <!--Column Annee-->
+            <div class="child-row-2">
+              <mat-form-field appearance="outline" floatLabel="auto" class="custom-mat-field-outline">
+                <mat-label>Année Agricole</mat-label>
+                <mat-select formControlName="annee">
+                  <mat-option *ngFor="let annee of data_annee_agricole" [value]="annee">
+                    {{ annee.annee_du }}-{{ annee.annee_au }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <!--Column saison-->
+            <div class="child-row-2" *ngIf="isAddMepSG || isEditMepSG || isAddMepMv || isEditMepMv">
+              <mat-form-field appearance="outline" floatLabel="auto" class="custom-mat-field-outline">
+                <mat-label>Saison</mat-label>
+                <mat-select formControlName="saison">
+                  <mat-option></mat-option>
+                  <mat-option *ngFor="let saison of data_saison" [value]="saison">
+                    {{ saison.description }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>	
+            </div>
+            <!--PR-->
+            <div class="child-row-2">
+              <mat-form-field appearance="outline" floatLabel="auto" class="custom-mat-field-outline">
+                <mat-label>PR</mat-label>
+                <mat-select formControlName="beneficiaire">
+                  <!--<mat-option (click)="onSelectBenef('tout')">Tout</mat-option>-->
+                  <mat-option (click)="onSelectPR()" *ngFor="let pr of data_pr" [value]="pr">
+                    {{pr.code_pr_temp}}: {{ pr.nom}} {{ pr.prenom }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <!--Column Parcelle, DDP, Espece-->
+          <div class="child-column-1" fxLayout="row" fxLayoutGap="25px">
+            <div class="child-row-2">
+              <mat-form-field appearance="outline" floatLabel="auto" class="custom-mat-field-outline">
+                <mat-label>Cep</mat-label>
+                <mat-select formControlName="parcelle">
+                  <mat-option (click)="onSelectCep()" *ngFor="let parce of data_cep_filter" [value]="parce">
+                    {{ parce.code_parce_temp }} : {{parce.superficie}} m²
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="child-row-2">
+              <mat-form-field appearance="fill" class="custom-mat-date">
+                <mat-label>DDP(jj/mm/AA)</mat-label>
+                <input matInput [matDatepicker]="picker_ddp" formControlName="ddp">
+                <mat-datepicker-toggle matSuffix [for]="picker_ddp"></mat-datepicker-toggle>
+                <mat-datepicker #picker_ddp></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="child-row-2">
+              <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                <mat-label>Espece</mat-label>
+                <mat-select formControlName="espece">
+                  <mat-option (click)="onSelectEspece('espece')" *ngFor="let espece of data_espece_filter" [value]="espece">
+                    {{ espece.nom_espece }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <!--Column Variette, QSO, Espece, DDS, DDT-->
+          <div class="child-column-1" fxLayout="row" fxLayoutGap="25px">
+            <div class="child-row-2" *ngIf="isAddMepSG || isEditMepSG">
+              <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                <mat-label>Variette</mat-label>
+                <mat-select formControlName="variette">
+                  <mat-option *ngFor="let variette of data_variette_filter" [value]="variette">
+                    {{ variette.nom_var }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="child-row-2">
+              <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                <mat-label *ngIf="isAddMepSG || isEditMepSG || isAddMepMv || isEditMepMv">QSO <span *ngIf="unite_espece != null">en {{unite_espece}} </span></mat-label>
+                <mat-label *ngIf="isAddMepPa || isEditMepPa">QO <span *ngIf="unite_espece != null">en {{unite_espece}} </span></mat-label>
+                <input matInput type="number" placeholder="Quantité Obtenue!" formControlName="qso">
+              </mat-form-field>
+            </div>
+            <div class="child-row-2">
+              <mat-form-field appearance="fill" class="custom-mat-date">
+                <mat-label>Dt_mep(jj/MM/AA)</mat-label>
+                <input matInput [matDatepicker]="dds" formControlName="dds">
+                <mat-datepicker-toggle matSuffix [for]="dds"></mat-datepicker-toggle>
+                <mat-datepicker #dds></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="child-row-2" *ngIf="isAddMepPa || isEditMepPa">
+              <mat-form-field appearance="fill" class="custom-mat-date">
+                <mat-label>Dt de distribution</mat-label>
+                <input matInput [matDatepicker]="dt_distribution" formControlName="dt_distribution">
+                <mat-datepicker-toggle matSuffix [for]="dt_distribution"></mat-datepicker-toggle>
+                <mat-datepicker #dt_distribution></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <!--Column Sfce_emblavee, QSO, Espece, DDS, DDT-->
+          <div class="child-column-1" fxLayout="row" *ngIf="!isEditMepPa && !isAddMepPa" fxLayoutGap="25px">
+            <div class="child-row-2">
+              <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                <mat-label>sfce emblavée(m²)</mat-label>
+                <input matInput type="number" placeholder="Merci de saisissez!" formControlName="sfce">
+              </mat-form-field>
+            </div>
+            <div class="child-row-2">
+              <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                <mat-label>Systeme cultural</mat-label>
+                <mat-select formControlName="sc">
+                  <mat-option (click)="onSeletSc('none')">--Aucune--</mat-option>
+                  <mat-option (click)="onSeletSc('sc')" *ngFor="let sc of data_sc" [value]="sc">
+                    {{ sc.description }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <!--Column 5 Systeme Cultural Bande-->
+          <div class="child-column-flex" fxLayout="row" *ngIf="isCultureBande || isEditMepPa || isAddMepPa" fxLayoutGap="25px">
+            <!--Formulaire Nombre Ligne-->
+            <div class="child-row-flex">
+              <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                <mat-label>Nombre Ligne</mat-label>
+                <input matInput type="number" placeholder="Merci de saisissez!" formControlName="nbre_ligne">
+              </mat-form-field>
+            </div>
+            <!--Formulaire Longueur Ligne-->
+            <div class="child-row-flex">
+              <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                <mat-label>Longueur Ligne(m)</mat-label>
+                <input matInput type="number" placeholder="Merci de saisissez!" formControlName="long_ligne">
+              </mat-form-field>
+            </div>
+          </div>
+          <!--Column 5 Systeme Cultural Associe-->
+          <div class="child-column-1" fxLayout="row" *ngIf="isAssocie" fxLayoutGap="25px">
+            <div class="child-row-2">
+              <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                <mat-label>Categrie associé</mat-label>
+                <mat-select formControlName="categorie_ea">
+                  <mat-option (click)="onSeletCateg('autre')">Autres</mat-option>
+                  <mat-option (click)="onSeletCateg('categorie')" *ngFor="let catego of data_categ_ea" [value]="catego">
+                    {{ catego.libelle }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="child-row-flex" *ngIf="!isSelectedAutreCulte">
+              <!--Formulaire 2-->
+              <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                <mat-label>Espece associé</mat-label>
+                <mat-select formControlName="espece_ea">
+                  <mat-option (click)="onSelectEspece('espece_ea')" *ngFor="let espece of data_espece_filter_ea" [value]="espece">
+                    {{ espece.nom_espece }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="child-row-flex" *ngIf="!isSelectedAutreCulte">
+              <!--Formulaire 3-->
+              <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                <mat-label>variette associé</mat-label>
+                <mat-select formControlName="variette_ea">
+                  <mat-option>none</mat-option>
+                  <mat-option *ngFor="let variette of data_variette_filter_ea" [value]="variette">
+                    {{ variette.nom_var }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>	
+            </div>
+            <div class="child-row-flex" *ngIf="isSelectedAutreCulte">
+              <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                <mat-label>Autres culture</mat-label>
+                <input matInput placeholder="Merci de saisissez!" formControlName="autreCultureEa">
+              </mat-form-field>	
+            </div>
+          </div>
+          <!--Column btn-->
+          <div class="child-column-1" fxLayout="row" fxLayoutGap="15px">
+            <div class="child-row-2">
+              <button mat-raised-button class="btn-annuler" (click)="onDismiss()">Annuler</button>
+            </div>
+            <div class="child-row-2">
+              <button mat-raised-button class="btn-valider" (click)="onSaveMepPr()" [disabled]="!mepForm.valid || isValidate">Valider</button>
+            </div>
+          </div>
+        </div>
+        <!--SUIVI MEP PR-->
+        <div [formGroup]="suiviMepForm" *ngIf="isSuiviMepPr || isSuiviMepBloc" fxLayout="column" fxLayoutGap="13px">
+
+          <!--Forms ddp: string, stc: any, ec: any; 
+            PA::: ddp: string, ql: number, ec: number; 
+            MV::: ddp: string, nbre_pied: number, long_ligne: number-->
+          <div class="child-flex-column" fxLayout="row" fxLayoutGap="25px">
+            <div class="child-flex-row">
+              <mat-form-field appearance="fill" class="custom-mat-date">
+                <mat-label>ddp(jj/MM/AA)</mat-label>
+                <input matInput [matDatepicker]="ddp_suivi" formControlName="ddp">
+                <!--<mat-hint>jj/MM/AAAA</mat-hint>-->
+                <mat-datepicker-toggle matSuffix [for]="ddp_suivi"></mat-datepicker-toggle>
+                <mat-datepicker #ddp_suivi></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="child-flex-row" *ngIf="isAddMepSvSG || isEditMepSvSG">
+              <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                <mat-label>STC</mat-label>
+                <mat-select formControlName="stc">
+                  <!--<mat-option (click)="onSelectNone('stc')">-----</mat-option>-->
+                  <mat-option *ngFor="let stc of data_stc" [value]="stc">
+                    {{ stc.intitule }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="child-flex-row" *ngIf="isAddMepSvSG || isEditMepSvSG || isAddMepSvPa || isEditMepSvPa">
+              <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                <mat-label>Etat cultural</mat-label>
+                <mat-select formControlName="ec">
+                  <mat-option (click)="onSelectNone('ec')">Aucun</mat-option>
+                  <mat-option *ngFor="let ec of data_ec" [value]="ec">
+                    {{ ec.intitule }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="child-flex-row" *ngIf="isAddMepSvPa || isEditMepSvPa">
+              <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                <mat-label>QL</mat-label>
+                <input matInput type="number" placeholder="Quantité levées!" formControlName="ql">
+              </mat-form-field>
+            </div>
+            <div class="child-flex-row" *ngIf="isAddMepSvMv || isEditMepSvMv">
+              <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                <mat-label>Nbre Pieds</mat-label>
+                <input matInput type="number" placeholder="Nombre de pieds!" formControlName="nbre_pied">
+              </mat-form-field>
+            </div>
+            <div class="child-flex-row" *ngIf="isAddMepSvMv || isEditMepSvMv">
+              <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                <mat-label>Longueur ligne(m)</mat-label>
+                <input matInput type="number" placeholder="Merci de saisissez!" formControlName="long_ligne">
+              </mat-form-field>
+            </div>
+          </div>
+          <!--SG::: long_ligne: number, nbre_ligne: number, estimation: number;
+              PA::: nbre_ligne: number, hauteur: number, qr: number;
+              MV::: nbre_ligne: number, estimation: number-->
+          <div class="child-flex-column" fxLayout="row" fxLayoutGap="25px">
+            <div class="child-flex-row">
+              <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                <mat-label>Nombre de lignes</mat-label>
+                <input matInput type="number" placeholder="Merci de saisissez!" formControlName="nbre_ligne">
+              </mat-form-field>
+            </div>
+            <div class="child-flex-row" *ngIf="isAddMepSvSG || isEditMepSvSG">
+              <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                <mat-label>Longueur de lignes(m)</mat-label>
+                <input matInput type="number" placeholder="Merci de saisissez!" formControlName="long_ligne">
+              </mat-form-field>
+            </div>
+            <div class="child-row" *ngIf="isAddMepSvSG || isEditMepSvSG || isAddMepSvMv || isEditMepSvMv">
+              <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                <mat-label>Estimation <span *ngIf="unite_estimation != null">en {{unite_estimation}} </span></mat-label>
+                <input matInput type="number" placeholder="Estimation de production!" formControlName="estimation">
+              </mat-form-field>
+            </div>
+            <div class="child-flex-row" *ngIf="isAddMepSvPa || isEditMepSvPa">
+              <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                <mat-label>Hauteur en m</mat-label>
+                <input matInput type="number" placeholder="Merci de saisissez!" formControlName="hauteur">
+              </mat-form-field>
+            </div>
+            <div class="child-flex-row" *ngIf="isAddMepSvPa || isEditMepSvPa">
+              <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                <mat-label>QR</mat-label>
+                <input matInput type="number" placeholder="Quantité réussies!" formControlName="qr">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="child" fxLayout="row" *ngIf="isAddMepSvSG || isEditMepSvSG || isAddMepSvPa || isEditMepSvPa">
+            <div class="chil-row" fxLayout="column">
+              <div class="child-column" style="width: 100%; justify-items: center;">
+                Image culture
+              </div>
+              <!--Column 2-->
+              <div class="child-column" fxLayout="row" fxLayoutAlign="center center">
+                <div class="child-row" fxLayout="column" fxLayoutAlign="center center">
+                  <div class="child-column2">
+                    <ion-button fill="clear" expand="full" color="blue" (click)="takeImage('img-pr')">
+                      <ion-icon slot="start" name="camera"></ion-icon>
+                    </ion-button>
+                  </div>
+                  <div class="child-column2" *ngIf="fileImage_pr.data != null">
+                    <button mat-icon-button icon-only class="btn-icon-delete"  (click)="onDeleteImg('img-cult')">
+                      <mat-icon>
+                        <img src="../../../../assets/icon/delete.png" alt="">
+                      </mat-icon>
+                    </button>
+                  </div>
+                </div>
+                <!--Row2-->
+                <div class="child-row">
+                  <ion-thumbnail slot="start">
+                    <ion-img [src]="fileImage_pr.data"></ion-img>
+                  </ion-thumbnail>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="child-flex-column" fxLayout="row" fxLayoutGap="15px">
+            <div class="child-row-2">
+              <button mat-raised-button class="btn-annuler" (click)="onDismiss()">Annuler</button>
+            </div>
+            <div class="child-row-2">
+              <button mat-raised-button class="btn-valider" (click)="onSaveSuviPr()" [disabled]="!suiviMepForm.valid || isValidate">Valider</button>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions fxLayoutAlign="center center" fxFlexFill>
+
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</ion-content>

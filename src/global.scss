@@ -1,0 +1,367 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+.my-custom-modal-suivi, .modal-custum-pr, .custom-view-img {
+    &::part(content) {
+        height: 100%;
+        width: 100%;
+        background-color: transparent;
+       // border-radius: 15px;
+    }
+}
+/**
+* Css Header flex
+*/
+.container-header-flex {
+    height:65px;
+    padding: 0 3px 0 3px;
+    background-color: rgb(17, 100, 59);;
+}
+.content-header-modal {
+    align-items: center;
+    height: 45px;
+    //background-color: #e07730d7;
+}
+.child-content-header-pr {
+    justify-content: space-between; 
+    align-items: center;
+}
+.width100 {
+    width: 100%;
+}
+.item-matcard-flex {
+    height:30px;
+}
+/***********************
+* Flex container
+************************/
+.flex-container {
+    padding: 0 3px 0 3px;
+    margin-top: 5px;
+}
+/**************************************
+*TABLE 
+***************************************/
+table {
+    width: 100%;
+}
+.container-matTab {
+    position: relative;
+    width: 100%;
+  } 
+.table-container {
+    position: relative;
+    //min-height: 250px;
+    max-height: 400px;
+    overflow: auto;
+}
+th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+    padding-left: 1px !important;
+}
+th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+    padding-right: 1px !important;
+}
+/**tr.mat-row, tr.mat-footer-row {
+    height: 25px !important;
+}*/
+th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+    border-right-width: 0.4px;
+    border-right-style: inset;
+}
+/**************************
+* Table expended style
+*************************/
+// tr row high detail
+tr.detail-row {
+    height: 0!important;
+}
+tr.hg-element-row, tr.mat-footer-row {
+    height: 26px !important;
+}
+/*****************************
+* Header Table
+******************************/
+// header row table 1er niveau
+tr.header-row-1 {
+    height: 30px!important;
+    background-color: #3581b8 !important;
+}
+// header table 2nd niveau
+tr.header-row-2 {
+    height: 27px!important; 
+    background-color: #02a6af !important;
+}
+// header table 3em niveau
+tr.header-row-3 {
+    height: 24px !important;
+    background-color: #f5ab64  !important;
+    color: white;
+}
+// tr add New element
+tr.second-header-row {
+    height: 30px !important;
+    background-color: #f3b9b9;
+}
+
+tr.element-row:not(.expanded-row):hover {
+    //background: rgb(231, 231, 194);
+}
+tr.element-row:not(.expanded-row):active {
+    background: #e3c7f3 !important;
+}
+
+tr.expanded-row {
+    background-color: rgb(255 237 237) !important;
+}
+
+/*************
+* Detail expended elem
+***********/
+.expended-element-detail {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #eaece9 !important;
+    box-shadow: inset 1px 2px 5px #e5eb97;
+    border-radius: 2px;
+    margin: 0 10px 0 10px;
+}
+.expended-element-detail-vide {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffd2d2 !important;
+    border-radius: 2px;
+}
+.expended-element-detail table {
+    td {
+        border-bottom-width: 1px;
+    }
+    tr.mat-header-row {
+        height: 26px !important;
+        background-color: #0dd88a;
+    }
+    tr.mat-row {
+        //height: 26px !important;
+    }
+    th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+        padding-right: 1px;
+        border-right: groove;
+    }
+    th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+        padding-left: 1px;
+        border-left: groove;
+    }
+}
+/*************************************
+* Bouton
+*************************************/
+/**button.btn-export {
+    background-color: #08a576;
+    color: white;
+    padding: 0 5px;
+    height: 30px;
+    line-height: 30px;
+    box-shadow: none;
+}*/
+button.btn-modifier {
+    background-color: #134d7f;
+    color: white;
+    padding: 0 5px;
+    height: 30px;
+    line-height: 30px;
+    box-shadow: none;
+}
+button.btn-terminer {
+    background-color: #b7031a;
+    color: white;
+    padding: 0 5px;
+    height: 30px;
+    line-height: 30px;
+    box-shadow: none;
+}
+button.btn-ajouter {
+    background-color: #3b5a97;
+    color: white;
+    padding: 0 5px;
+    height: 30px;
+    line-height: 30px;
+    box-shadow: none;
+}
+button.btn-info, button.btn-info-niv2 {
+    color: white;
+    padding: 0 5px !important;
+    height: 23px !important;
+    line-height: 23px !important;
+    box-shadow: none;
+  }
+button.btn-info {
+    background-color: #0d3c68;
+}
+button.btn-info-niv2 {
+    background-color: #0d6cb9;
+}
+button.btn-toggle {
+    color: white;
+    background-color: #212e7c;
+    padding: 0 5px;
+    height: 30px;
+    line-height: 30px;
+    box-shadow: none;
+  }
+button.btn-actualiser {
+    color: white;
+    background-color: #a76a13;
+    padding: 0 5px;
+    height: 30px;
+    line-height: 30px;
+    box-shadow: none;
+}
+button.btn-annuler {
+    background: linear-gradient(27deg, #e05844, transparent);
+    padding: 0;
+}
+button.btn-valider {
+    //background: linear-gradient(351deg, #24ac28, transparent);
+    background-color: #0aa35c;
+    color: white;
+    padding: 0px;
+}
+.custom-mat-icon.mat-icon-button {
+    width: 40px;
+    height: 15px;
+    line-height: 15px;
+}
+// btn mat-icon
+.custom-mat-icon-refresh {
+    background-color: #a1d1f8;
+    border-radius: 5px;
+}
+.custom-mat-icon-export {
+    background-color: #05a786;
+    border-radius: 5px;
+    border: solid 1px;
+}
+.btn-icon-edit-niv1, .btn-icon-edit-niv2, .btn-icon-edit-niv3, .btn-icon-edit-disabled, .btn-icon-delete, .btn-icon-delete-disabled {
+    border-radius: 5px;
+    img {
+        width: 80%;
+    }
+}
+.btn-icon-edit-disabled {
+    background-color: #fdfafa;
+}
+.btn-icon-edit-niv1 {
+    background-color: #264c97;
+}
+.btn-icon-edit-niv2 {
+    background-color: #05c254;
+}
+.btn-icon-edit-niv3 {
+    background-color: #0d6cb9;
+}
+.btn-icon-add-niv2 {
+    background-color: #e82828;
+    color: white;
+    border-radius: 5px;
+}
+.btn-icon-add-niv3 {
+    background-color: #0d6cb9;
+    color: white;
+    border-radius: 5px;
+}
+.btn-icon-edit-niv1.mat-icon-button, .btn-icon-edit-niv2.mat-icon-button, .btn-icon-edit-niv3.mat-icon-button, .btn-icon-edit-disabled.mat-icon-button, .btn-icon-delete.mat-icon-button, .btn-icon-delete-disabled.mat-icon-button  {
+    width: 29px;
+    height: 24px;
+    line-height: 24px;
+    border-radius: 5px;
+}
+.btn-icon-add-niv2.mat-icon-button, .btn-icon-add-niv3.mat-icon-button {
+    width: 95px;
+    height: 24px;
+    line-height: 24px;
+    border-radius: 5px;
+}
+.custom-mat-icon-export.mat-icon-button {
+    width: 85px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 5px;
+}
+.custom-mat-icon-refresh.mat-icon-button {
+    width: 40px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 5px;
+}
+// Action Done and Cancel btn
+.content-btn-done {
+    background-color: white;
+}
+button.btn-cancel {
+    background-color: #f48b8b;
+}
+button.btn-done {
+    background-color: #7de275;
+}
+.btn-done.mat-icon-button, .btn-cancel.mat-icon-button {
+    width: 40px;
+    height: 28px;
+    line-height: 28px;
+    border-radius: 5px;
+}
+.content-flex-header-filter, .content-flex-header-filter-child {
+    align-items: baseline;
+}
+/*****************************
+* Mat-form Angular material
+******************************/
+.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+    padding-bottom: 0;
+}
+.mat-form-field-appearance-legacy .mat-form-field-underline {
+    bottom: 0;
+}
+/**
+<mat-icon>cancel</mat-icon>
+<mat-icon>done-outline</mat-icon>
+<mat-icon>done-all</mat-icon>
+<mat-icon>done</mat-icon>
+<mat-icon>delete-outline</mat-icon>
+<mat-icon>delete-all</mat-icon>
+<mat-icon>delete</mat-icon>
+<mat-icon>edit</mat-icon>
+<mat-icon>image</mat-icon>
+<mat-icon>arrow_back</mat-icon>
+<mat-icon>sync</mat-icon>
+<mat-icon>sync_disabled</mat-icon>
+<mat-icon>sync_problem</mat-icon>
+<mat-icon inline>ligature_icon</mat-icon>
+*/

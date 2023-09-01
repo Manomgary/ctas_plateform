@@ -1,0 +1,80 @@
+<ion-header>
+	<div class="container-header-flex" fxLayout="row" fxLayoutGap="10px">
+		<div class="flex-child-1" fxLayoutAlign="center center">
+			<ion-thumbnail>
+				<ion-img src="../../assets/ctas/logo_ctas.jpg"></ion-img>
+			</ion-thumbnail>
+		</div>
+
+		<div class="child-row width100" fxLayout="column" fxLayoutGap="5px">
+			<div class="child-content-header-pr width100" fxLayoutAlign="center center" style="padding-top: 4px;">
+				Gestion de collecte de données
+			</div>
+			<div class="ion-text-center ion-text-wrap" style="font-size: 10px;">
+				Bienvenue sur l'application mobile de ctas
+			</div>
+		</div>
+	</div>
+  </ion-header>
+  
+  <ion-content>
+	  <form fxLayoutAlign="center center" fxFlexFill [formGroup]="loginForm" (ngSubmit)="doLogin()">
+		<mat-card fxFlex="70" class="login-card">
+			<mat-card-header fxLayoutAlign="center center" color="success">
+				<div mat-card-avatar class="logo-header-image" *ngIf="isFirstLogin || user_single.img == null"></div>
+				<div mat-card-avatar class="image-utilisateur" *ngIf="!isFirstLogin && user_single.img != null">
+					<ion-img [src]="user_single.img"></ion-img>
+				</div>
+				<mat-card-title>
+					<div class="content-column">
+						<div class="ion-text-center">
+							Se connecter à ctas
+						</div>
+						<div class="ion-text-center ion-text-wrap" *ngIf="isFirstLogin" style="font-size: 12px;">
+							Première connection, Veuillez connecter à un réseau Wifi ou mobile pour se connecter
+						</div>
+						<div class="ion-text-center ion-text-wrap" *ngIf="!isFirstLogin" style="font-size: 12px;">
+							{{ user_single.nom }} {{ user_single.prenom }}
+						</div>
+					</div>
+				</mat-card-title>
+			</mat-card-header>
+			<mat-card-content>
+				<div  class="flex-container width100" fxLayout="column" style="justify-content: space-evenly;padding-top: 10px">
+					<div class="content-flex-child-1" fxLayoutAlign="center center" style="padding-bottom: 8px;">
+						<mat-form-field appearance="outline" class="custom-log-mat-field-outline">
+							<mat-label>Identifiant</mat-label>
+							<input matInput formControlName="userName" placeholder="Merci d'identifier par votre nume telephone">
+							<!--<mat-error *ngIf="f['userName'].errors['required']">Name is required</mat-error>-->
+						</mat-form-field>
+					</div>
+					<div class="content-flex-child-1" fxLayoutAlign="center center">
+						<mat-form-field appearance="outline" class="custom-log-mat-field-outline">
+							<mat-label>Mot de passe</mat-label>
+							<input matInput [type]="hide ? 'password' : 'text'" formControlName="passWord" placeholder="saisir votre mot de passe"> 
+							<button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" type="button">
+								<!--<mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>-->
+								<ion-icon *ngIf="hide" name="eye-off"></ion-icon>
+								<ion-icon *ngIf="!hide" name="eye"></ion-icon>
+							</button>
+							<!--<mat-error *ngIf="!isNotPass"> {{msg}} </mat-error>-->
+						</mat-form-field>	
+					</div>
+					<!--<div>
+						<mat-form-field class="example-full-width" appearance="fill">
+							<mat-label>Telephone</mat-label>
+							<span matPrefix>+261 &nbsp;</span>
+							<input type="tel" matInput placeholder="555-555-1234">
+							<mat-icon matSuffix>mode_edit</mat-icon>
+						  </mat-form-field>
+					</div>-->
+				</div>
+			</mat-card-content>
+			<mat-card-actions fxLayoutAlign="center center" fxFlexFill>
+				<button mat-raised-button type="button" (click)="refresh()" *ngIf="!isFirstLogin">Voir Profil</button>
+				<button mat-raised-button type="button" (click)="onReset()">Reset</button>
+				<button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid || isValidate">Connection</button>
+			</mat-card-actions>
+		</mat-card>
+	</form>
+  </ion-content>

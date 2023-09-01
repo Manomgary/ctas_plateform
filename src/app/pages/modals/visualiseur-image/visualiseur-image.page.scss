@@ -1,0 +1,15 @@
+ion-content {
+    &::part(background) {
+          background-color: rgb(0 0 0 / 77%);
+          opacity: 0.3 !important;
+      }
+}
+::ng-deep .modal-card-img.mat-card{
+    background-color: rgb(0 0 0 / 77%) !important;
+    margin: 0 0px;
+    padding: 10px;
+  }
+.img-active {
+    border-color: white;
+    border-style: outset;
+}

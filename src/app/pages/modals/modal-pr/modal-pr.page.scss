@@ -1,0 +1,85 @@
+//
+ion-content {
+    &::part(background) {
+          background-color: rgb(0 0 0 / 87%);
+          opacity: 0.3 !important;
+      }
+  }
+  ion-thumbnail {
+    --border-radius: 4px;
+    --size: 40px;
+  }
+  
+::ng-deep .modal-card-pr.mat-card{
+    background-color:rgb(255, 255, 255) !important;
+    margin: 0 15px;
+    padding: 1px;
+  }
+  .mat-card-header {
+    .mat-icon {
+      height: 30px;
+      width: 30px;
+    }
+  }
+  .mat-card-header .mat-card-title {
+    margin-bottom: 0px;
+  }
+  .mat-card-actions, .mat-card-subtitle, .mat-card-content {
+    margin: 12px 5px 5px 5px;
+  }
+.header-row-modal1.mat-card-header {
+    background: linear-gradient(174deg, #3581b8, transparent) !important;
+}
+.header-row-modal2.mat-card-header {
+    background: linear-gradient(174deg, #02a6af, transparent) !important;
+}
+.header-anime.mat-card-header {
+    background-color: #3581b8 !important;
+}
+
+/*****************************************
+* CUSTOM FORMULAIRE STYLE
+***************************************/
+::ng-deep {
+    // outline field margin
+    .custom-mat-field-outline.mat-form-field-appearance-outline .mat-form-field-wrapper {
+      margin: 0;
+      padding-bottom: 0px;
+    }
+    .custom-mat-field-outline.mat-form-field-appearance-outline .mat-form-field-infix {
+      padding: 0.75em 0 0.22em 0;
+    }
+    .custom-mat-field-outline.mat-form-field-appearance-outline .mat-form-field-outline-thick {
+      opacity: 0.4;
+    }
+    .custom-mat-field-outline.mat-form-field-appearance-outline .mat-form-field-flex {
+      background-color: #f6f7f8;
+      border-radius: 5px;
+    }
+    // date formulaire
+    .custom-mat-date {
+      width: 201px;
+    }
+    .custom-mat-date .mat-form-field-wrapper {
+      padding-bottom: 0;
+    }
+    .custom-mat-date .mat-form-field-underline {
+      bottom: 0px;
+    }
+    .custom-mat-date.mat-form-field-appearance-fill .mat-form-field-flex {
+      border-radius: 4px 4px 0 0;
+      padding: .12em .12em 0 .15em;
+    }
+    .custom-mat-date.mat-form-field-appearance-fill .mat-form-field-infix {
+      padding: .15em 0 .25em 0;
+    }
+}
+
+.content-flex-column {
+    padding: 0 3px 0 3px;
+    margin-top: 5px;
+}
+
+.width-form-filed {
+    width: 202px;
+}

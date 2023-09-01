@@ -1,0 +1,629 @@
+<ion-header>
+  <div class="container-header-flex" fxLayout="row" fxLayoutGap="10px">
+    <div class="flex-child-1" fxLayoutAlign="center center">
+      <ion-buttons>
+        <ion-menu-button autoHide="false"></ion-menu-button>
+      </ion-buttons>
+    </div>
+
+    <div class="child-content-header-pr width100" fxLayout="row">
+      <div class="ion-text-center ion-text-wrap width100">
+        Identification PR
+      </div>
+      <div>
+        <button mat-icon-button class="custom-mat-icon" icon-only (click)="onClick()">
+          <mat-icon aria-label="retour">
+            <img src="../../../../assets/icon/Left_24px.png" alt="">
+          </mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div class="flex-container" fxLayout="column width100" fxLayoutGap="5px">
+
+    <!--Column btn export, afficher-->
+    <div class="content-flex-header-filter" fxLayout="row" style="justify-content: space-between">
+      <div class="content-flex-header-filter-child" fxLayout="row" fxLayoutGap="10px">
+        <div class="child-row-1">
+          <button mat-raised-button class="btn-toggle" (click)="onToggleTableRows()">Tout afficher</button>
+        </div>
+        <div class="child-row-1">
+          <button mat-raised-button class="btn-ajouter" (click)="onPresentModal({src: 'add'})" *ngIf="!isAddPr && !isRowEdit && !isAddCep && isUpdate">Ajouter PR</button>
+        </div>
+        <div class="child-row-1">
+          <button mat-icon-button class="custom-mat-icon-export" (click)="onExport()" *ngIf="!isUpdated" [disabled]="isUpdate || data_pr.length == 0">
+            <mat-icon aria-label="retour">
+              <img src="../../../../assets/icon/Ms_excel_48px.png" alt="">
+            </mat-icon>
+            <mat-label>Exporter</mat-label>
+          </button>
+        </div>
+      </div>
+      <div class="chil-row">
+        <button mat-raised-button class="btn-modifier" (click)="onUpdate()" *ngIf="!isUpdate">Modifier</button>
+        <button mat-raised-button class="btn-terminer" (click)="onFinish()" *ngIf="isUpdate">Terminer</button>
+      </div>
+    </div>
+    <!--Column content-->
+    <div class="container-matTab mat-elevation-z8">
+      <div class="table-container">
+        <table mat-table [dataSource]="dataSourcePR" class="example-table" multiTemplateDataRows>
+          <!-- Image culture Column -->
+          <ng-container matColumnDef="img_pr">
+            <th mat-header-cell *matHeaderCellDef>img</th>
+            <td mat-cell *matCellDef="let row; let i = dataIndex;">  
+              <span *ngIf="!isRowEdit || indeRowEdit != i">
+                <ion-thumbnail slot="start">
+                  <ion-img [src]="row.img_benef"></ion-img>
+                </ion-thumbnail>
+              </span>
+              <span *ngIf="indeRowEdit == i  && isRowEdit">
+                <ion-thumbnail slot="start">
+                  <ion-img [src]="update_benef.img_pr.data" *ngIf="update_benef.img_pr != null"></ion-img>
+                  <ion-img [src]="update_benef.img_pr" *ngIf="update_benef.img_pr == null"></ion-img>
+                </ion-thumbnail>
+              </span>
+            </td>
+          </ng-container>  
+          <!-- New Image PR Column -->
+          <ng-container matColumnDef="new_img_pr">
+            <th mat-header-cell *matHeaderCellDef> 
+              <span>
+                <ion-thumbnail slot="start">
+                  <ion-img [src]="update_benef.img_pr.data" *ngIf="update_benef.img_pr != null"></ion-img>
+                  <ion-img [src]="update_benef.img_pr" *ngIf="update_benef.img_pr == null"></ion-img>
+                </ion-thumbnail>
+              </span>
+            </th>
+          </ng-container> 
+
+          <!--Column code_pr-->
+          <ng-container matColumnDef="code_pr">
+            <th mat-header-cell *matHeaderCellDef>Code Pr</th>
+            <td mat-cell *matCellDef="let row; dataIndex as i;">
+              <span *ngIf="!isRowEdit || indeRowEdit != i">
+                {{row.code_pr_temp}}
+              </span>
+              <span *ngIf="indeRowEdit == i  && isRowEdit">
+                {{row.code_pr_temp}}
+              </span>
+            </td>
+          </ng-container>
+          <!--New Column code_pr-->
+          <ng-container matColumnDef="new_code_pr">
+            <th mat-header-cell *matHeaderCellDef></th>
+          </ng-container>
+
+          <!--Column code_achat-->
+          <ng-container matColumnDef="code_achat">
+            <th mat-header-cell *matHeaderCellDef>Code achat</th>
+            <td mat-cell *matCellDef="let row; dataIndex as i;">
+              <span *ngIf="!isRowEdit || indeRowEdit != i">
+                {{row.code_achat}}
+              </span>
+              <span *ngIf="indeRowEdit == i  && isRowEdit">
+                {{update_benef.code_achat}}
+              </span>
+            </td>
+          </ng-container>
+          <!--Column New code_achat-->
+          <ng-container matColumnDef="new_code_achat">
+            <th mat-header-cell *matHeaderCellDef>{{update_benef.code_achat}}</th>
+          </ng-container>
+
+          <!--Column nom-->
+          <ng-container matColumnDef="nom">
+            <th mat-header-cell *matHeaderCellDef>Nom</th>
+            <td mat-cell *matCellDef="let row; dataIndex as i;">
+              <span *ngIf="!isRowEdit || indeRowEdit != i">
+                {{row.nom}} {{row.prenom}}
+              </span>
+              <span *ngIf="indeRowEdit == i  && isRowEdit">
+                {{update_benef.nom}} {{update_benef.prenom}}
+              </span>
+            </td>
+          </ng-container>
+          <!--Column New Nom-->
+          <ng-container matColumnDef="new_nom">
+            <th mat-header-cell *matHeaderCellDef>{{update_benef.nom}} {{update_benef.prenom}}</th>
+          </ng-container>
+
+          <!--Column sexe-->
+          <ng-container matColumnDef="sexe">
+            <th mat-header-cell *matHeaderCellDef>Sexe</th>
+            <td mat-cell *matCellDef="let row; dataIndex as i;">
+              <span *ngIf="!isRowEdit || indeRowEdit != i">
+                {{row.sexe}}
+              </span>
+              <span *ngIf="indeRowEdit == i  && isRowEdit">
+                {{update_benef.sexe}}
+              </span>
+            </td>
+          </ng-container>
+          <!--Column New sexe-->
+          <ng-container matColumnDef="new_sexe">
+            <th mat-header-cell *matHeaderCellDef>{{update_benef.sexe}}</th>
+          </ng-container>
+
+          <!--Column surnom-->
+          <ng-container matColumnDef="surnom">
+            <th mat-header-cell *matHeaderCellDef>Surnom</th>
+            <td mat-cell *matCellDef="let row; dataIndex as i;">
+              <span *ngIf="!isRowEdit || indeRowEdit != i">
+                {{row.surnom}}
+              </span>
+              <span *ngIf="indeRowEdit == i  && isRowEdit">
+                {{update_benef.surnom}}
+              </span>
+            </td>
+          </ng-container>
+          <!--Column New surnom-->
+          <ng-container matColumnDef="new_surnom">
+            <th mat-header-cell *matHeaderCellDef>{{update_benef.surnom}}</th>
+          </ng-container>
+
+          <!--Column surnom-->
+          <ng-container matColumnDef="dt_nais">
+            <th mat-header-cell *matHeaderCellDef>Dt_nais</th>
+            <td mat-cell *matCellDef="let row; dataIndex as i;">
+              <span *ngIf="!isRowEdit || indeRowEdit != i">
+                <span *ngIf="row.dt_nais != null && row.dt_nais_vers == null">
+                  {{row.date_naissance | customDate}}
+                </span>
+                <span *ngIf="row.dt_nais == null && row.dt_nais_vers != null">
+                  {{row.date_naissance}}
+                </span>
+              </span>
+              <span *ngIf="indeRowEdit == i  && isRowEdit">
+                <span *ngIf="update_benef.dt_naissance != null">
+                  {{update_benef.dt_naissance | customDate}}
+                </span>
+                <span *ngIf="update_benef.dt_naissance_vers != null && update_benef.dt_naissance == null">
+                  {{update_benef.dt_naissance_vers}}
+                </span>
+              </span>
+            </td>
+          </ng-container>
+          <!--Column New surnom-->
+          <ng-container matColumnDef="new_dt_nais">
+            <th mat-header-cell *matHeaderCellDef>
+              <span *ngIf="update_benef.dt_naissance != null">
+                {{update_benef.dt_naissance | customDate}}
+              </span>
+              <span *ngIf="update_benef.dt_naissance_vers != null && update_benef.dt_naissance == null">
+                {{update_benef.dt_naissance_vers}}
+              </span>
+            </th>
+          </ng-container>
+
+          <!--Column cin-->
+          <ng-container matColumnDef="cin">
+            <th mat-header-cell *matHeaderCellDef>CIN</th>
+            <td mat-cell *matCellDef="let row; dataIndex as i;">
+              <span *ngIf="!isRowEdit || indeRowEdit != i">
+                {{row.cin}}
+              </span>
+              <span *ngIf="indeRowEdit == i  && isRowEdit">
+                {{update_benef.cin}}
+              </span>
+            </td>
+          </ng-container>
+          <!--Column new cin-->
+          <ng-container matColumnDef="new_cin">
+            <th mat-header-cell *matHeaderCellDef>{{update_benef.cin}}</th>
+          </ng-container>
+
+          <!--Column img cin-->
+          <ng-container matColumnDef="img_cin">
+            <th mat-header-cell *matHeaderCellDef>Img CIN</th>
+            <td mat-cell *matCellDef="let row; dataIndex as i;">
+              <span *ngIf="!isRowEdit || indeRowEdit != i">
+                <button mat-icon-button icon-only class="btn-icon-delete-disabled" [class.btn-icon-delete]="row.img_cin != null" [class.btn-icon-delete-disabled]="row.img_cin == null" [disabled]="row.img_cin == null" (click)="onViewImage(row)">
+                  <mat-icon>
+                    <img src="../../../assets/icon/eye.png" alt="" *ngIf="row.img_cin != null">
+                    <img src="../../../assets/icon/eye_disable.png" alt="" *ngIf="row.img_cin == null">
+                  </mat-icon>
+                </button>
+              </span>
+              <span *ngIf="indeRowEdit == i  && isRowEdit">
+                
+              </span>
+            </td>
+          </ng-container>
+          <!--Column new cin-->
+          <ng-container matColumnDef="new_img_cin">
+            <th mat-header-cell *matHeaderCellDef></th>
+          </ng-container>
+
+          <!--Column commune-->
+          <ng-container matColumnDef="commune">
+            <th mat-header-cell *matHeaderCellDef>Commune</th>
+            <td mat-cell *matCellDef="let row; dataIndex as i;">
+              <span *ngIf="!isRowEdit || indeRowEdit != i">
+                {{row.commune}}
+              </span>
+              <span *ngIf="indeRowEdit == i  && isRowEdit">
+                {{update_benef.commune.nom_com}}
+              </span>
+            </td>
+          </ng-container>
+          <!--Column New commune-->
+          <ng-container matColumnDef="new_commune">
+            <th mat-header-cell *matHeaderCellDef></th>
+          </ng-container>
+
+          <!--Column fokontany-->
+          <ng-container matColumnDef="fokontany">
+            <th mat-header-cell *matHeaderCellDef>Fokontany</th>
+            <td mat-cell *matCellDef="let row; dataIndex as i;">
+              <span *ngIf="!isRowEdit || indeRowEdit != i">
+                {{row.fokontany}}
+              </span>
+              <span *ngIf="indeRowEdit == i  && isRowEdit">
+                {{update_benef.fokontany !== null?update_benef.fokontany.nom_fkt:update_benef.village}}
+              </span>
+            </td>
+          </ng-container>
+          <!--Column New fokontany-->
+          <ng-container matColumnDef="new_fokontany">
+            <th mat-header-cell *matHeaderCellDef>{{update_benef.fokontany !== null?update_benef.fokontany.nom_fkt:update_benef.village}}</th>
+          </ng-container>
+
+          <!--Column Action-->
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell *matCellDef="let row; dataIndex as i;">
+              <span *ngIf="indeRowEdit == i  && isRowEdit && isUpdate">
+                <div class="content-btn-done" fxLayout="row" fxLayoutGap="3px">
+                  <div class="child-row-btn">
+                    <button mat-icon-button ion-button icon-only class="btn-cancel" (click)="onCancelEdit()">
+                      <mat-icon>
+                        <img src="../../../../assets/icon/cancel_48px.png" alt="annuler">
+                      </mat-icon>
+                    </button>
+                  </div>
+                  <div class="child-row-btn">
+                    <button mat-icon-button icon-only class="btn-done" (click)="onSaveEdit({data: row})">
+                      <mat-icon>
+                        <img src="../../../../assets/icon/Ok_48px.png" alt="">
+                      </mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </span>
+              <span *ngIf="!isAddPr && !isUpdate && !isRowEdit && !isRowEditCep">
+                <button mat-flat-button class="btn-info btn-dimension" (click)="row.isExpanded = !row.isExpanded">CEP</button>
+              </span>
+              <span *ngIf="!isAddPr && !isRowEdit && !isRowEditCep && !isAddCep && isUpdate">
+                <div fxLayout="row width100" fxLayoutGap="2px">
+                  <div class="child-column-flex">
+                    <button mat-icon-button icon-only [class.btn-icon-edit-niv1]="row.etat_pr === etat_sync || row.etat_pr === etat_valide || row.etat_pr === etat_update" [class.btn-icon-edit-disabled]="row.etat_pr != etat_sync && row.etat_pr != etat_valide && row.etat_pr != etat_update" [disabled]="row.etat_pr != etat_sync && row.etat_pr != etat_valide && row.etat_pr != etat_update" (click)="onEdit({data: row, index_: i})">
+                      <mat-icon>
+                        <img src="../../../../assets/icon/Edit_50px.png" alt="" *ngIf="row.etat_pr === etat_sync || row.etat_pr === etat_valide || row.etat_pr === etat_update">
+                        <img src="../../../../assets/icon/edit_disabled.png" alt="" *ngIf="row.etat_pr != etat_sync && row.etat_pr != etat_valide && row.etat_pr != etat_update">
+                      </mat-icon>
+                    </button>
+                  </div>
+                  <div class="child-column-flex">
+                    <button mat-flat-button class="btn-info btn-dimension" (click)="row.isExpanded = !row.isExpanded">CEP</button>
+                  </div>
+                  <div class="child-row">
+                    <button mat-icon-button icon-only [class.btn-icon-delete]="row.etat_pr === etat_sync" [class.btn-icon-delete-disabled]="row.etat_pr != etat_sync" [disabled]="row.etat_pr != etat_sync" (click)="onDeleteBenef(row)">
+                      <mat-icon>
+                        <img src="../../../assets/icon/delete.png" alt="" *ngIf="row.etat_pr === etat_sync">
+                        <img src="../../../assets/icon/delete_disabled.png" alt="" *ngIf="row.etat_pr != etat_sync">
+                      </mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </span>
+            </td>
+          </ng-container>
+          <!--Column New Action-->
+          <ng-container matColumnDef="new_action">
+            <th mat-header-cell *matHeaderCellDef>
+              <span *ngIf="isAddPr">
+                <div class="content-btn-done" fxLayout="row" fxLayoutGap="3px">
+                  <div class="child-row-btn">
+                    <button mat-icon-button ion-button icon-only class="btn-cancel" (click)="onCancelAddPr()">
+                      <mat-icon>
+                        <img src="../../../../assets/icon/cancel_48px.png" alt="annuler">
+                      </mat-icon>
+                    </button>
+                  </div>
+                  <div class="child-row-btn">
+                    <button mat-icon-button icon-only class="btn-done" (click)="onSaveAddPr()">
+                      <mat-icon>
+                        <img src="../../../../assets/icon/Ok_48px.png" alt="">
+                      </mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </span>
+            </th>
+          </ng-container>
+
+          <!-- Template for details row -->
+          <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element; dataIndex as i;" [attr.colspan]="displayedColumnsPR.length">
+              <div class="row expended-element-detail" [@detailExpand]="element.isExpanded && element.cep_pr.length > 0 || isUpdate && element.isExpanded? 'expanded' : 'collapsed'">
+                <table mat-table [dataSource]="element.cep_pr">
+                  <!--Column code_parce-->
+                  <ng-container matColumnDef="code_parce">
+                    <th mat-header-cell *matHeaderCellDef>Code parce</th>
+                    <td mat-cell *matCellDef="let row">{{row.code_parce_temp}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="new_code_parce">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                  </ng-container>
+
+                  <!--Column bloc-->
+                  <ng-container matColumnDef="bloc">
+                    <th mat-header-cell *matHeaderCellDef>Bloc</th>
+                    <td mat-cell *matCellDef="let row; index as inde;">
+                      <span *ngIf="!isRowEditCep || indeRowEditCep != inde && indeRowEdit == i || indeRowEdit != i">
+                        {{row.bloc_cep}}
+                      </span>
+                      <span *ngIf="indeRowEditCep == inde && indeRowEdit == i && isRowEditCep">
+                        {{this.update_cep.bloc != null?this.update_cep.bloc.nom:null}}
+                      </span>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="new_bloc">
+                    <th mat-header-cell *matHeaderCellDef>
+                      {{this.update_cep.bloc != null?this.update_cep.bloc.nom:null}}
+                    </th>
+                  </ng-container>
+
+                  <!--Column ref_gps-->
+                  <ng-container matColumnDef="ref_gps">
+                    <th mat-header-cell *matHeaderCellDef>ref_gps</th>
+                    <td mat-cell *matCellDef="let row; index as inde;">
+                      <span *ngIf="!isRowEditCep || indeRowEditCep != inde && indeRowEdit == i || indeRowEdit != i">
+                        {{row.ref_gps}}
+                      </span>
+                      <span *ngIf="indeRowEditCep == inde && indeRowEdit == i && isRowEditCep">
+                        {{update_cep.ref_gps}}
+                      </span>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="new_ref_gps">
+                    <th mat-header-cell *matHeaderCellDef>
+                      {{update_cep.ref_gps}}
+                    </th>
+                  </ng-container>
+
+                  <!--Column lat-->
+                  <ng-container matColumnDef="lat">
+                    <th mat-header-cell *matHeaderCellDef>Latitude</th>
+                    <td mat-cell *matCellDef="let row; index as inde;">
+                      <span *ngIf="!isRowEditCep || indeRowEditCep != inde && indeRowEdit == i || indeRowEdit != i">
+                        {{row.lat}}
+                      </span>
+                      <span *ngIf="indeRowEditCep == inde && indeRowEdit == i && isRowEditCep">
+                        {{update_cep.latitude}}
+                      </span>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="new_lat">
+                    <th mat-header-cell *matHeaderCellDef>
+                      {{update_cep.latitude}}
+                    </th>
+                  </ng-container>
+
+                  <!--Column log-->
+                  <ng-container matColumnDef="log">
+                    <th mat-header-cell *matHeaderCellDef>Log</th>
+                    <td mat-cell *matCellDef="let row; index as inde;">
+                      <span *ngIf="!isRowEditCep || indeRowEditCep != inde && indeRowEdit == i || indeRowEdit != i">
+                        {{row.log}}
+                      </span>
+                      <span *ngIf="indeRowEditCep == inde && indeRowEdit == i  && isRowEditCep">
+                        {{update_cep.longitude}}
+                      </span>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="new_log">
+                    <th mat-header-cell *matHeaderCellDef>
+                      {{update_cep.longitude}}
+                    </th>
+                  </ng-container>
+
+                  <!--Column superficie-->
+                  <ng-container matColumnDef="superficie">
+                    <th mat-header-cell *matHeaderCellDef>Superficie</th>
+                    <td mat-cell *matCellDef="let row; index as inde;">
+                      <span *ngIf="!isRowEditCep || indeRowEditCep != inde && indeRowEdit == i || indeRowEdit != i">
+                        {{row.superficie}}
+                      </span>
+                      <span *ngIf="indeRowEditCep == inde && indeRowEdit == i  && isRowEditCep">
+                        {{update_cep.superficie}}
+                      </span>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="new_superficie">
+                    <th mat-header-cell *matHeaderCellDef>
+                      {{update_cep.superficie}}
+                    </th>
+                  </ng-container>
+
+                  <!--Column Region-->
+                  <ng-container matColumnDef="region">
+                    <th mat-header-cell *matHeaderCellDef>Region</th>
+                    <td mat-cell *matCellDef="let row; index as inde;">
+                      <span *ngIf="!isRowEditCep || indeRowEditCep != inde && indeRowEdit == i || indeRowEdit != i">
+                        {{row.nom_region}}
+                      </span>
+                      <span *ngIf="indeRowEditCep == inde && indeRowEdit == i  && isRowEditCep">
+                        {{update_cep.region != null?update_cep.region.nom_reg:null}}
+                      </span>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="new_region">
+                    <th mat-header-cell *matHeaderCellDef>
+                      {{update_cep.region != null?update_cep.region.nom_reg:null}}
+                    </th>
+                  </ng-container>
+
+                  <!--Column District-->
+                  <ng-container matColumnDef="district">
+                    <th mat-header-cell *matHeaderCellDef>District</th>
+                    <td mat-cell *matCellDef="let row; index as inde;">
+                      <span *ngIf="!isRowEditCep || indeRowEditCep != inde && indeRowEdit == i || indeRowEdit != i">
+                        {{ row.district }}
+                      </span>
+                      <span *ngIf="indeRowEditCep == inde && indeRowEdit == i && isRowEditCep">
+                        {{update_cep.district != null?update_cep.district.nom_dist:null}}
+                      </span>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="new_district">
+                    <th mat-header-cell *matHeaderCellDef>
+                      {{update_cep.district != null?update_cep.district.nom_dist:null}}
+                    </th>
+                  </ng-container>
+
+                  <!--Column commune-->
+                  <ng-container matColumnDef="commune">
+                    <th mat-header-cell *matHeaderCellDef>Commune</th>
+                    <td mat-cell *matCellDef="let row; index as inde;">
+                      <span *ngIf="!isRowEditCep || indeRowEditCep != inde && indeRowEdit == i || indeRowEdit != i">
+                        {{row.commune}}
+                      </span>
+                      <span *ngIf="indeRowEditCep == inde  && indeRowEdit == i && isRowEditCep">
+                        {{update_cep.commune != null?update_cep.commune.nom_com:null}}
+                      </span>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="new_commune">
+                    <th mat-header-cell *matHeaderCellDef>
+                      {{update_cep.commune != null?update_cep.commune.nom_com:null}}
+                    </th>
+                  </ng-container>
+
+                  <!--Column fokontany-->
+                  <ng-container matColumnDef="fokontany">
+                    <th mat-header-cell *matHeaderCellDef>Fokontany</th>
+                    <td mat-cell *matCellDef="let row; index as inde;">
+                      <span *ngIf="!isRowEditCep || indeRowEditCep != inde && indeRowEdit == i || indeRowEdit != i">
+                        {{row.fokontany}}
+                      </span>
+                      <span *ngIf="indeRowEditCep == inde && indeRowEdit == i  && isRowEditCep">
+                        {{update_cep.fokontany != null?update_cep.fokontany.nom_fkt:update_cep.village}}
+                      </span>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="new_fokontany">
+                    <th mat-header-cell *matHeaderCellDef>
+                      {{update_cep.fokontany != null?update_cep.fokontany.nom_fkt:update_cep.village}}
+                    </th>
+                  </ng-container>
+
+                  <!--Column Action-->
+                  <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <button mat-icon-button class="btn-icon-add-niv2" (click)="onUpdatedCep({src: 'add', data_pr: element, index_: i})" style="width: 110px !important;" [disabled]="isRowEditCep || isAddCep">
+                        <mat-icon>
+                          <img src="../../../../assets/icon/Positive_48px.png" alt="" *ngIf="isRowEditCep || isAddCep">
+                          <img src="../../../../assets/icon/Plus_48px.png" alt="" *ngIf="!isRowEditCep && !isAddCep">
+                        </mat-icon>
+                        <mat-label>
+                          Ajouter CEP
+                        </mat-label>
+                      </button>
+                    </th>
+                    <td mat-cell *matCellDef="let row; index as inde;">
+                      <span *ngIf="!isRowEditCep">
+                        <div class="content-btn" fxLayout="row" fxLayoutGap="5px">
+                          <div class="child-row">
+                            <button mat-icon-button icon-only [class.btn-icon-edit-niv2]="row.etat === etat_sync || row.etat === etat_valide || row.etat === etat_update" [class.btn-icon-edit-disabled]="row.etat != etat_sync && row.etat != etat_valide && row.etat != etat_update" [disabled]="row.etat != etat_sync && row.etat != etat_valide && row.etat != etat_update" (click)="onUpdatedCep({src: 'edit', data_pr: element, data_cep: row, index_cep: inde, index_pr: i})">
+                              <mat-icon>
+                                <img src="../../../../assets/icon/Edit_50px.png" alt="" *ngIf="row.etat === etat_sync || row.etat === etat_valide || row.etat === etat_update">
+                                <img src="../../../../assets/icon/edit_disabled.png" alt="" *ngIf="row.etat != etat_sync && row.etat != etat_valide && row.etat != etat_update">
+                              </mat-icon>
+                            </button>
+                          </div>
+                          <div class="child-row">
+                            <button mat-icon-button icon-only [class.btn-icon-delete]="row.etat === etat_sync" [class.btn-icon-delete-disabled]="row.etat != etat_sync" [disabled]="row.etat != etat_sync" (click)="onDeleteCep(row)">
+                              <mat-icon>
+                                <img src="../../../assets/icon/delete.png" alt="" *ngIf="row.etat === etat_sync">
+                                <img src="../../../assets/icon/delete_disabled.png" alt="" *ngIf="row.etat != etat_sync">
+                              </mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                      </span>
+                      <span *ngIf="indeRowEditCep == inde && indeRowEdit == i  && isRowEditCep">
+                        <div class="content-btn-done" fxLayout="row" fxLayoutGap="3px">
+                          <div class="child-row-btn">
+                            <button mat-icon-button ion-button icon-only class="btn-cancel" (click)="onCancelEditCep()">
+                              <mat-icon>
+                                <img src="../../../../assets/icon/cancel_48px.png" alt="annuler">
+                              </mat-icon>
+                            </button>
+                          </div>
+                          <div class="child-row-btn">
+                            <button mat-icon-button icon-only class="btn-done" (click)="onSaveEditCep(row)">
+                              <mat-icon>
+                                <img src="../../../../assets/icon/Ok_48px.png" alt="">
+                              </mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                      </span>
+                    </td>
+                  </ng-container>
+                  <!--Column New Action-->
+                  <ng-container matColumnDef="new_action">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <span>
+                        <div class="content-btn-done" fxLayout="row" fxLayoutGap="3px">
+                          <div class="child-row-btn">
+                            <button mat-icon-button ion-button icon-only class="btn-cancel" (click)="onCancelAddCep()">
+                              <mat-icon>
+                                <img src="../../../../assets/icon/cancel_48px.png" alt="annuler">
+                              </mat-icon>
+                            </button>
+                          </div>
+                          <div class="child-row-btn">
+                            <button mat-icon-button icon-only class="btn-done" (click)="onSaveAddCep(element)">
+                              <mat-icon>
+                                <img src="../../../../assets/icon/Ok_48px.png" alt="">
+                              </mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                      </span>
+                    </th>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsParce" class="header-row-2"></tr>
+                  <tr [hidden]="!isAddCep || indeRowEdit != i && isAddCep" mat-header-row *matHeaderRowDef="displayedColumnsAddParce; sticky: true" class="second-header-row"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumnsParce;" class="hg-element-row"></tr>
+                  <!-- Row shown when there is no matching data. -->
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" [attr.colspan]="displayedColumnsParce.length">Aucun enregistrement</td>
+                  </tr>
+                </table>
+              </div>
+              <div class="row expended-element-detail-vide" [@detailExpand]="!isUpdate && element.isExpanded && element.cep_pr.length == 0? 'expanded' : 'collapsed'">
+                <div mat-line>Aucun champs Ecole Enregistrer pour PR {{element.code_pr}}</div>
+              </div>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsPR; sticky: true" class="header-row-1"></tr>
+          <tr [hidden]="!isAddPr" mat-header-row *matHeaderRowDef="displayedAddColumnsPR; sticky: true" class="second-header-row"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsPR;" class="element-row hg-element-row" [class.expanded-row]="row.isExpanded" [class.sv-row-vide]="row.cep_pr.length == 0"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+  
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayedColumnsPR.length">Aucun enregistrement</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</ion-content>

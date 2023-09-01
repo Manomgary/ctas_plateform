@@ -1,0 +1,885 @@
+<ion-header>
+  <div class="container-header-flex" fxLayout="row" fxLayoutGap="10px">
+    <div class="flex-child-1" fxLayoutAlign="center center">
+      <ion-buttons>
+        <ion-menu-button autoHide="false"></ion-menu-button>
+      </ion-buttons>
+    </div>
+
+    <div class="child-row width100" fxLayout="column" fxLayoutGap="3px">
+      <div class="child-content-header-pr width100" fxLayout="row" style="padding-top: 4px;">
+        <div class="ion-text-center ion-text-wrap width100">
+          Identification Bénéficiaire
+        </div>
+        <div>
+          <button mat-icon-button class="custom-mat-icon" icon-only (click)="onClick()">
+            <mat-icon aria-label="retour">
+              <img src="../../../../assets/icon/Left_24px.png" alt="">
+            </mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="child-content-zone width100" fxLayout="row" style="justify-content: space-around;">
+        <div class="child1-row-flex" fxLayout="row" fxLayoutGap="4px">
+          <div class="label-region" fxLayoutAlign="center center">Region</div>
+          <mat-card class="item-matcard-flex" fxLayoutAlign="start center">{{region.nom_reg}}</mat-card> 
+        </div>
+        <div class="child2-row-flex" fxLayout="row" fxLayoutGap="4px">
+          <div class="label-region" fxLayoutAlign="center center">District</div>
+          <mat-card class="item-matcard-flex" fxLayoutAlign="start center">{{district.nom_dist}}</mat-card> 
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <mat-tab-group mat-align-tabs="start" (selectedIndexChange)="selectMatTab($event)">
+    <mat-tab label="Bloc">
+      <div class="flex-container width100" fxLayout="column" fxLayoutGap="4px">
+        <!--Column 1 filtre-->
+        <div class="content-flex-header-filter" style="justify-content: space-between" fxLayout="row">
+          <div class="child-row">
+            <mat-form-field>
+              <mat-select [(ngModel)]="selectedBloc" placeholder="Filtre par Bloc" (ngModelChange)="applyFilterSelect($event, 'bloc')">
+                <mat-option (click)="applyFilterTout('bloc')" [value]="">tout</mat-option>
+                <mat-option *ngFor="let bloc of data_bloc" [value]="bloc">
+                  {{ bloc.nom_bloc }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>  
+          </div>
+          <div class="child-row">
+            <button mat-icon-button class="custom-mat-icon-export" (click)="onExport('bloc')" *ngIf="!isUpdated" [disabled]="data_bloc.length == 0">
+              <mat-icon aria-label="retour">
+                <img src="../../../../assets/icon/Ms_excel_48px.png" alt="">
+              </mat-icon>
+              <mat-label>Exporter</mat-label>
+            </button>
+          </div>
+        </div>
+        <!--Tableaux Bloc-->
+        <div class="child-column container-matTab mat-elevation-z8">
+          <div class="table-container table-bloc">
+            <div>
+              <table mat-table [dataSource]="dataSource" matSort #blocSort="matSort" multiTemplateDataRows>
+
+                <!-- Code Bloc Column -->
+                <ng-container matColumnDef="code_bloc">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> code_bloc </th>
+                  <td mat-cell *matCellDef="let row"> {{row.code_bloc}} </td>
+                </ng-container>
+      
+                <!-- Nom_bloc Column -->
+                <ng-container matColumnDef="nom_bloc">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom bloc </th>
+                  <td mat-cell *matCellDef="let row"> {{row.nom_bloc}} </td>
+                </ng-container>
+      
+                <!-- commune Concerné Column -->
+                <ng-container matColumnDef="zone_district">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> District </th>
+                  <td mat-cell *matCellDef="let row"> {{row.nom_dist}} </td>
+                </ng-container>
+      
+                <!-- technicien Column -->
+                <ng-container matColumnDef="technicien">
+                  <th mat-header-cell *matHeaderCellDef> Technicien </th>
+                  <td mat-cell *matCellDef="let row">{{row.nom}} {{row.prenom}}</td>
+                </ng-container>
+
+                <!-- nb_benef Column -->
+                <ng-container matColumnDef="nb_benef">
+                  <th mat-header-cell *matHeaderCellDef> Nb Benefiaire </th>
+                  <td mat-cell *matCellDef="let row"> {{row.nb_benef}} </td>
+                </ng-container>
+
+                <!-- nb_parce Column -->
+                <ng-container matColumnDef="nb_parce">
+                  <th mat-header-cell *matHeaderCellDef> Nb Parcelle </th>
+                  <td mat-cell *matCellDef="let row"> {{row.nb_parce}} </td>
+                </ng-container>
+
+                <!--Action-->
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef>Action</th>
+                  <td mat-cell *matCellDef="let row; let i = dataIndex;">
+                    <button mat-flat-button class="btn-info btn-dimension" (click)="row.isExpanded = !row.isExpanded">zone</button>
+                  </td>
+                </ng-container>
+
+                <!-- Template for details row -->
+                <ng-container matColumnDef="expandedDetail">
+                  <td mat-cell *matCellDef="let element; dataIndex as i;" [attr.colspan]="displayedColumns.length">
+                    <div class="row expended-element-detail" [@detailExpand]="element.isExpanded && element.zone.length > 0? 'expanded' : 'collapsed'">
+                      <table mat-table [dataSource]="element.zone">
+              
+                        <!-- commune Concerné Column -->
+                        <ng-container matColumnDef="commune">
+                          <th mat-header-cell *matHeaderCellDef> Commune </th>
+                          <td mat-cell *matCellDef="let row"> {{row.nom_com}} </td>
+                        </ng-container>
+              
+                        <!-- nb_beneficiaire Column -->
+                        <ng-container matColumnDef="fkt">
+                          <th mat-header-cell *matHeaderCellDef> Fokontany </th>
+                          <td mat-cell *matCellDef="let row"> {{row.nom_fkt}}</td>
+                        </ng-container>
+              
+                        <!-- nb_fkt_concerner Column -->
+                        <ng-container matColumnDef="km_responsable">
+                          <th mat-header-cell *matHeaderCellDef> KM responsable </th>
+                          <td mat-cell *matCellDef="let row"> {{row.nom}} {{row.prenom}} </td>
+                        </ng-container>
+                    
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsZone; sticky: true" class="header-row-2"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsZone;" class="hg-element-row">
+                        </tr>
+                    
+                        <!-- Row shown when there is no matching data. -->
+                        <tr class="mat-row" *matNoDataRow>
+                          <td class="mat-cell" colspan="4">Aucun enregistrement"</td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="row expended-element-detail-vide" [@detailExpand]="element.isExpanded && element.zone.length == 0? 'expanded' : 'collapsed'">
+                      <div mat-line>Aucune zone disponible</div>
+                    </div>
+        
+                  </td>
+                </ng-container>
+            
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="header-row-1"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="element-row hg-element-row" [class.expanded-row]="row.isExpanded" [class.sv-row-vide]="row.zone.length == 0"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+            
+                <!-- Row shown when there is no matching data. -->
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell" colspan="6">Aucun enregistrement"</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <mat-paginator 
+                #blocPaginator
+                [pageSizeOptions]="[25, 50]"
+                aria-label="Select page of pms" 
+                showFirstLastButtons
+              ></mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Beneficiaire">
+      <div class="flex-container width100" fxLayout="column">
+        <!--Tableaux-->
+        <div class="content-column-child-2" fxLayout="column width100" fxLayoutGap="4px">
+          <!--btn-->
+          <div class="content-flex-header-filter" fxLayout="row" style="justify-content: space-between">
+            <div class="content-flex-header-filter-child" fxLayout="row" fxLayoutGap="8px">
+              <div class="child-row">
+                <button mat-raised-button class="btn-toggle" (click)="onToggleTableRows('beneficiaire')">Tout afficher</button>
+              </div>
+              <!--Filtre-->
+              <div class="content-column-child-1">
+                <mat-form-field>
+                  <mat-select placeholder="Filtre par Bloc" [(ngModel)]="selectedBloc" (ngModelChange)="applyFilterSelect($event, 'beneficiaire')">
+                    <mat-option (click)="applyFilterTout('beneficiaire')" [value]="">tout</mat-option>
+                    <mat-option *ngFor="let bloc of data_bloc" [value]="bloc">
+                      {{ bloc.nom_bloc }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="child-row">
+                <button mat-icon-button class="custom-mat-icon-export" (click)="onExport('beneficiaire')" *ngIf="!isUpdate">
+                  <mat-icon aria-label="retour">
+                    <img src="../../../../assets/icon/Ms_excel_48px.png" alt="">
+                  </mat-icon>
+                  <mat-label>Exporter</mat-label>
+                </button>
+              </div>
+              <div class="child-row">
+                <button mat-raised-button (click)="onUpdateBenef({src: 'add'})" class="btn-ajouter" *ngIf="isUpdate" [disabled]="isAddBenef || isEditRowBenef">Ajouter Beneficaire</button>
+              </div>
+            </div>
+            <div class="child-row">
+              <button mat-raised-button class="btn-modifier" (click)="onUpdate()" *ngIf="!isUpdate" color="primary">Modifier</button>
+              <button mat-raised-button class="btn-terminer" (click)="onFinish()" *ngIf="isUpdate" color="warn">Terminer</button>
+            </div>
+          </div>
+          <!--content -->
+          <div class="container-matTab mat-elevation-z8">
+            <div class="table-container">
+              <!--<table mat-table [dataSource]="dataSourceBenef" multiTemplateDataRows matSort #benefSort="matSort"></table>-->
+              <table mat-table [dataSource]="dataSourceBenef" multiTemplateDataRows>
+
+                <!-- Code Bloc Column -->
+                <ng-container matColumnDef="nom_bloc">
+                  <th mat-header-cell *matHeaderCellDef> Bloc </th>
+                  <td mat-cell *matCellDef="let row; let i = dataIndex"> 
+                    <span *ngIf="!isEditRowBenef || indexEditRowBenef != i">
+                      {{row.nom_bloc}} 
+                    </span>
+                    <span *ngIf="indexEditRowBenef == i  && isEditRowBenef && isUpdate">
+                      {{ update_benef.bloc != undefined && update_benef.bloc != null?update_benef.bloc.nom_bloc:null }}
+                    </span>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="new_nom_bloc">
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{ update_benef.bloc != undefined && update_benef.bloc != null?update_benef.bloc.nom_bloc:null }}
+                  </th>
+                </ng-container>
+      
+                <!-- Nom_bloc Column -->
+                <ng-container matColumnDef="code_benef_bl">
+                  <th mat-header-cell *matHeaderCellDef> Code benef</th>
+                  <td mat-cell *matCellDef="let row; let i = dataIndex">
+                    {{row.code_benef_bl_temp}}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="new_code_benef_bl">
+                  <th mat-header-cell *matHeaderCellDef>
+
+                  </th>
+                </ng-container>
+
+                <!-- Nom_bloc Column -->
+                <ng-container matColumnDef="code_achat">
+                  <th mat-header-cell *matHeaderCellDef> Code achat </th>
+                  <td mat-cell *matCellDef="let row; let i = dataIndex">
+                    <span *ngIf="!isEditRowBenef || indexEditRowBenef != i">
+                      {{row.code_achat}}
+                    </span>
+                    <span *ngIf="indexEditRowBenef == i  && isEditRowBenef && isUpdate">
+                      {{ update_benef.code_achat }}
+                    </span>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="new_code_achat">
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{ update_benef.code_achat }}
+                  </th>
+                </ng-container>
+      
+                <!-- Nom Concerné Column -->
+                <ng-container matColumnDef="nom">
+                  <th mat-header-cell *matHeaderCellDef> Nom </th>
+                  <td mat-cell *matCellDef="let row; let i = dataIndex"> 
+                    <span *ngIf="!isEditRowBenef || indexEditRowBenef != i">
+                      {{row.nom}} {{row.prenom}}  
+                    </span>
+                    <span *ngIf="indexEditRowBenef == i  && isEditRowBenef && isUpdate">
+                      {{ update_benef.nom }} {{ update_benef.prenom }}
+                    </span>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="new_nom">
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{ update_benef.nom }} {{ update_benef.prenom }}
+                  </th>
+                </ng-container>
+      
+                <!-- sexe Column -->
+                <ng-container matColumnDef="sexe">
+                  <th mat-header-cell *matHeaderCellDef> Sexe </th>
+                  <td mat-cell *matCellDef="let row; let i = dataIndex">
+                    <span *ngIf="!isEditRowBenef || indexEditRowBenef != i">
+                      {{row.sexe}} 
+                    </span>
+                    <span *ngIf="indexEditRowBenef == i  && isEditRowBenef && isUpdate">
+                      {{ update_benef.sexe }}
+                    </span>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="new_sexe">
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{ update_benef.sexe }}
+                  </th>
+                </ng-container>
+
+                <!-- dt_naissance Column -->
+                <ng-container matColumnDef="dt_nais">
+                  <th mat-header-cell *matHeaderCellDef> Dt nais </th>
+                  <td mat-cell *matCellDef="let row; let i = dataIndex"> 
+                    <span *ngIf="!isEditRowBenef || indexEditRowBenef != i">
+                      <span *ngIf="row.dt_nais != null && row.dt_nais_vers == null">
+                        {{row.date_naissance | customDate}}
+                      </span>
+                      <span *ngIf="row.dt_nais == null && row.dt_nais_vers != null">
+                        {{row.date_naissance}}
+                      </span>
+                    </span>
+                    <span *ngIf="indexEditRowBenef == i  && isEditRowBenef && isUpdate">
+                      {{ update_benef.dt_naissance != null? update_benef.dt_naissance:null | customDate}} {{ update_benef.dt_naissance_vers != null? update_benef.dt_naissance_vers:null}}
+                    </span>
+                  </td>
+                </ng-container>
+                 <!-- dt_naissance Column -->
+                <ng-container matColumnDef="new_dt_nais">
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{ update_benef.dt_naissance != null? update_benef.dt_naissance:null | customDate}} {{ update_benef.dt_naissance_vers != null? update_benef.dt_naissance_vers:null}}
+                  </th>
+                </ng-container>
+    
+                <!-- cin Column -->
+                <ng-container matColumnDef="cin">
+                  <th mat-header-cell *matHeaderCellDef> cin </th>
+                  <td mat-cell *matCellDef="let row; let i = dataIndex">
+                    <span *ngIf="!isEditRowBenef || indexEditRowBenef != i">
+                      {{row.cin}} 
+                    </span>
+                    <span *ngIf="indexEditRowBenef == i  && isEditRowBenef && isUpdate">
+                      {{ update_benef.cin }}
+                    </span>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="new_cin">
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{ update_benef.cin }}
+                  </th>
+                </ng-container>
+    
+                <!-- new_img_cin Column -->
+                <ng-container matColumnDef="img_cin">
+                  <th mat-header-cell *matHeaderCellDef> Img CIN </th>
+                  <td mat-cell *matCellDef="let row; let i = dataIndex">
+                    <span *ngIf="!isEditRowBenef || indexEditRowBenef != i">
+                      <button mat-icon-button icon-only class="btn-icon-delete-disabled" [class.btn-icon-delete]="row.img_cin != null" [class.btn-icon-delete-disabled]="row.img_cin == null" [disabled]="row.img_cin == null" (click)="onViewImage(row)">
+                        <mat-icon>
+                          <img src="../../../../assets/icon/eye.png" alt="" *ngIf="row.img_cin != null">
+                          <img src="../../../../assets/icon/eye_disable.png" alt="" *ngIf="row.img_cin == null">
+                        </mat-icon>
+                      </button>
+                    </span>
+                    <span *ngIf="indexEditRowBenef == i  && isEditRowBenef && isUpdate">
+                      
+                    </span>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="new_img_cin">
+                  <th mat-header-cell *matHeaderCellDef>
+                  </th>
+                </ng-container>
+
+                <!-- commune Column -->
+                <ng-container matColumnDef="nom_com">
+                  <th mat-header-cell *matHeaderCellDef> Commune </th>
+                  <td mat-cell *matCellDef="let row; let i = dataIndex">
+                    <span *ngIf="!isEditRowBenef || indexEditRowBenef != i">
+                      {{row.commune}} 
+                    </span>
+                    <span *ngIf="indexEditRowBenef == i  && isEditRowBenef && isUpdate">
+                      {{ update_benef.commune != undefined && update_benef.commune != null?update_benef.commune.nom_com:null }}
+                    </span>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="new_nom_com">
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{ update_benef.commune != undefined && update_benef.commune != null?update_benef.commune.nom_com:null }}
+                  </th>
+                </ng-container>
+    
+                <!-- fokontany Column -->
+                <ng-container matColumnDef="nom_fkt">
+                  <th mat-header-cell *matHeaderCellDef> Fokontany </th>
+                  <td mat-cell *matCellDef="let row; let i = dataIndex;"> 
+                    <span *ngIf="!isEditRowBenef || indexEditRowBenef != i">
+                      {{row.fokontany}}
+                    </span>
+                    <span *ngIf="indexEditRowBenef == i  && isEditRowBenef && isUpdate">
+                      {{ update_benef.fokontany != undefined && update_benef.fokontany != null?update_benef.fokontany.nom_fkt:update_benef.village }}
+                    </span>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="new_nom_fkt">
+                  <th mat-header-cell *matHeaderCellDef>
+                    {{ update_benef.fokontany != undefined && update_benef.fokontany != null?update_benef.fokontany.nom_fkt:update_benef.village }}
+                  </th>
+                </ng-container>
+    
+                <!-- nombre parcelle Column -->
+                <ng-container matColumnDef="nb_parcelle">
+                  <th mat-header-cell *matHeaderCellDef> Nb parcelle </th>
+                  <td mat-cell *matCellDef="let row; let i = dataIndex"> 
+                    <span *ngIf="!isEditRowBenef || indexEditRowBenef != i">
+                      {{row.nb_parce}}
+                    </span>
+                    <span *ngIf="indexEditRowBenef == i  && isEditRowBenef && isUpdate">
+                      
+                    </span>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="new_nb_parcelle">
+                  <th mat-header-cell *matHeaderCellDef></th>
+                </ng-container>
+                
+                <!-- nombre parcelle Column -->
+                <ng-container matColumnDef="sum_superficie">
+                  <th mat-header-cell *matHeaderCellDef>Sum Sfce </th>
+                  <td mat-cell *matCellDef="let row; let i = dataIndex">
+                    <span *ngIf="!isEditRowBenef || indexEditRowBenef != i">
+                      {{row.sum_parce}}
+                    </span>
+                    <span *ngIf="indexEditRowBenef == i  && isEditRowBenef && isUpdate">
+                      
+                    </span>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="new_sum_superficie">
+                  <th mat-header-cell *matHeaderCellDef></th>
+                </ng-container>
+
+                <ng-container matColumnDef="new_action">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <span>
+                      <div class="content-btn-done" fxLayout="row" fxLayoutGap="3px">
+                        <div class="child-row-btn">
+                          <button mat-icon-button ion-button icon-only class="btn-cancel" (click)="onCancelAddBenef({src: 'add'})">
+                            <mat-icon>
+                              <img src="../../../../assets/icon/cancel_48px.png" alt="">
+                            </mat-icon>
+                          </button>
+                        </div>
+                        <div class="child-row-btn">
+                          <button mat-icon-button ion-button icon-only class="btn-done" (click)="onSaveAddBenef({src: 'add'})">
+                            <mat-icon>
+                              <img src="../../../../assets/icon/Ok_48px.png" alt="">
+                            </mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </span>
+                  </th>
+                </ng-container>
+
+                <!-- surnom Column -->
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef>Action</th>
+                  <td mat-cell *matCellDef="let row; let i = dataIndex;">
+                    <span *ngIf="indexEditRowBenef == i  && isEditRowBenef && isUpdate">
+                      <div class="content-btn-done" fxLayout="row" fxLayoutGap="3px">
+                        <div class="child-row-btn">
+                          <button mat-icon-button ion-button icon-only class="btn-cancel" (click)="onCancelAddBenef({src: 'edit'})">
+                            <mat-icon>
+                              <img src="../../../../assets/icon/cancel_48px.png" alt="">
+                            </mat-icon>
+                          </button>
+                        </div>
+                        <div class="child-row-btn">
+                          <button mat-icon-button ion-button icon-only class="btn-done" (click)="onSaveAddBenef({src: 'edit', elem_benef: row})">
+                            <mat-icon>
+                              <img src="../../../../assets/icon/Ok_48px.png" alt="">
+                            </mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </span>
+                    <span *ngIf="!isUpdate">
+                      <button mat-flat-button class="btn-info btn-dimension" (click)="row.isExpanded = !row.isExpanded">Parcelle</button>
+                    </span>
+                    <div *ngIf="isUpdate && !isAddBenef && !isEditRowBenef" fxLayout="row" fxLayoutGap="3px">
+                      <div class="child-row-btn">
+                        <button mat-icon-button icon-only [class.btn-icon-edit-niv1]="row.etat_benef_bloc === etat_sync || row.etat_benef_bloc === etat_valide || row.etat_benef_bloc === etat_update" [class.btn-icon-edit-disabled]="row.etat_benef_bloc != etat_sync && row.etat_benef_bloc != etat_valide && row.etat_benef_bloc != etat_update" [disabled]="row.etat_benef_bloc != etat_sync && row.etat_benef_bloc != etat_valide && row.etat_benef_bloc != etat_update" (click)="onUpdateBenef({src: 'edit', element: row, ind_benef: i})">
+                          <mat-icon>
+                            <img src="../../../../assets/icon/Edit_50px.png" alt="" *ngIf="row.etat_benef_bloc === etat_sync || row.etat_benef_bloc === etat_valide || row.etat_benef_bloc === etat_update">
+                            <img src="../../../../assets/icon/edit_disabled.png" alt="" *ngIf="row.etat_benef_bloc != etat_sync && row.etat_benef_bloc != etat_valide && row.etat_benef_bloc != etat_update">
+                          </mat-icon>
+                        </button>
+                      </div>
+                      <div class="child-row-btn">
+                        <button mat-flat-button class="btn-info btn-dimension" (click)="row.isExpanded = !row.isExpanded">Parce</button>
+                      </div>
+                      <div class="child-row">
+                        <button mat-icon-button icon-only [class.btn-icon-delete]="row.etat_benef_bloc === etat_sync" [class.btn-icon-delete-disabled]="row.etat_benef_bloc != etat_sync" [disabled]="row.etat_benef_bloc != etat_sync" (click)="onDeleteBenef(row)">
+                          <mat-icon>
+                            <img src="../../../assets/icon/delete.png" alt="" *ngIf="row.etat_benef_bloc === etat_sync">
+                            <img src="../../../assets/icon/delete_disabled.png" alt="" *ngIf="row.etat_benef_bloc != etat_sync">
+                          </mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <!--++++++++++++++++++ Template for details Contrat +++++++++++++++++++++++++++-->
+                <ng-container matColumnDef="expandedDetail">
+                  <td mat-cell *matCellDef="let element; dataIndex as i;" [attr.colspan]="displayedColumnsBenef.length">
+                    <div class="row expended-element-detail" [@detailExpand]="element.isExpanded && element.parcelle.length > 0 || isUpdate && element.isExpanded? 'expanded' : 'collapsed'">
+                      <table mat-table [dataSource]="element.parcelle">
+
+                        <!-- code parcelle Column -->
+                        <ng-container matColumnDef="code_parce">
+                          <th mat-header-cell *matHeaderCellDef>Code prc </th>
+                          <td mat-cell *matCellDef="let row; let inde = index;">
+                            <span *ngIf="!isRowEditParce || (indexEditRowparce != inde && indexEditRowBenef == i  && isRowEditParce) || (indexEditRowBenef != i && isRowEditParce)">
+                              <!--{{row.code_parce}}-->{{row.code_parce_temp}}
+                            </span>
+                            <span *ngIf="indexEditRowparce == inde && indexEditRowBenef == i  && isRowEditParce">
+                              {{ update_parce.code_parce_temp }}
+                            </span>
+                          </td>
+                        </ng-container>
+                        <ng-container matColumnDef="new_code_parce">
+                          <th mat-header-cell *matHeaderCellDef>
+                            {{ update_parce.code_parce_temp }}
+                          </th>
+                        </ng-container>
+            
+                        <!-- ref_gps Column -->
+                        <ng-container matColumnDef="ref_gps">
+                          <th mat-header-cell *matHeaderCellDef>Ref_gps</th>
+                          <td mat-cell *matCellDef="let row; let inde = index;">
+                            <span *ngIf="!isRowEditParce || (indexEditRowparce != inde && indexEditRowBenef == i  && isRowEditParce) || (indexEditRowBenef != i && isRowEditParce)">
+                              {{row.ref_gps}}
+                            </span>
+                            <span *ngIf="indexEditRowparce == inde && indexEditRowBenef == i  && isRowEditParce">
+                              <!--{{ update_parce.ref_gps }}-->
+                            </span>
+                          </td>
+                        </ng-container>
+                        <ng-container matColumnDef="new_ref_gps">
+                          <th mat-header-cell *matHeaderCellDef>
+                            <!--{{ update_parce.ref_gps }}-->
+                          </th>
+                        </ng-container>
+              
+                        <!-- lat Column -->
+                        <ng-container matColumnDef="lat">
+                          <th mat-header-cell *matHeaderCellDef>Lat</th>
+                          <td mat-cell *matCellDef="let row; let inde = index;">
+                            <span *ngIf="!isRowEditParce || (indexEditRowparce != inde && indexEditRowBenef == i  && isRowEditParce) || (indexEditRowBenef != i && isRowEditParce)">
+                              {{row.lat}}
+                            </span>
+                            <span *ngIf="indexEditRowparce == inde && indexEditRowBenef == i  && isRowEditParce">
+                              {{ update_parce.latitude }}
+                            </span> 
+                          </td>
+                        </ng-container>
+                        <ng-container matColumnDef="new_lat">
+                          <th mat-header-cell *matHeaderCellDef>
+                            {{ update_parce.latitude }}
+                          </th>
+                        </ng-container>
+            
+                        <!-- nb_fkt_concerner Column -->
+                        <ng-container matColumnDef="log">
+                          <th mat-header-cell *matHeaderCellDef>Log</th>
+                          <td mat-cell *matCellDef="let row; let inde = index;">
+                            <span *ngIf="!isRowEditParce || (indexEditRowparce != inde && indexEditRowBenef == i  && isRowEditParce) || (indexEditRowBenef != i && isRowEditParce)">
+                              {{row.log}}
+                            </span>
+                            <span *ngIf="indexEditRowparce == inde && indexEditRowBenef == i  && isRowEditParce">
+                              {{update_parce.longitude}}
+                            </span> 
+                          </td>
+                        </ng-container>
+                        <ng-container matColumnDef="new_log">
+                          <th mat-header-cell *matHeaderCellDef>
+                            {{update_parce.longitude}}
+                          </th>
+                        </ng-container>
+            
+                        <!-- superficie Column -->
+                        <ng-container matColumnDef="superficie">
+                          <th mat-header-cell *matHeaderCellDef>Sfce</th>
+                          <td mat-cell *matCellDef="let row; let inde = index;">
+                            <span *ngIf="!isRowEditParce || (indexEditRowparce != inde && indexEditRowBenef == i  && isRowEditParce) || (indexEditRowBenef != i && isRowEditParce)">
+                              {{row.superficie}} 
+                            </span>
+                            <span *ngIf="indexEditRowparce == inde && indexEditRowBenef == i  && isRowEditParce">
+                              {{ update_parce.superficie }}
+                            </span>
+                          </td>
+                        </ng-container>
+                        <ng-container matColumnDef="new_superficie">
+                          <th mat-header-cell *matHeaderCellDef>
+                            {{ update_parce.superficie }}
+                          </th>
+                        </ng-container>
+    
+                        <!-- commune Column -->
+                        <ng-container matColumnDef="commune">
+                          <th mat-header-cell *matHeaderCellDef>Commune</th>
+                          <td mat-cell *matCellDef="let row; let inde = index;">
+                            <span *ngIf="!isRowEditParce || (indexEditRowparce != inde && indexEditRowBenef == i  && isRowEditParce) || (indexEditRowBenef != i && isRowEditParce)">
+                              {{row.commune}}
+                            </span>
+                            <span *ngIf="indexEditRowparce == inde && indexEditRowBenef == i  && isRowEditParce">
+                              {{ update_parce.commune != null?update_parce.commune.nom_com:null }}
+                            </span>
+                          </td>
+                        </ng-container>
+                        <ng-container matColumnDef="new_commune">
+                          <th mat-header-cell *matHeaderCellDef>
+                            {{ update_parce.commune != null?update_parce.commune.nom_com:null }}
+                          </th>
+                        </ng-container>
+    
+                        <!-- fokontany Column -->
+                        <ng-container matColumnDef="fokontany">
+                          <th mat-header-cell *matHeaderCellDef>Fokontany</th>
+                          <td mat-cell *matCellDef="let row; let inde = index;">
+                            <span *ngIf="!isRowEditParce || (indexEditRowparce != inde && indexEditRowBenef == i  && isRowEditParce) || (indexEditRowBenef != i && isRowEditParce)">
+                              {{row.fokontany}}
+                            </span>
+                            <span *ngIf="indexEditRowparce == inde && indexEditRowBenef == i  && isRowEditParce">
+                              {{ update_parce.fokontany != null?update_parce.fokontany.nom_fkt:update_parce.village }}
+                            </span>  
+                          </td>
+                        </ng-container>
+                        <ng-container matColumnDef="new_fokontany">
+                          <th mat-header-cell *matHeaderCellDef>--</th>
+                        </ng-container>
+    
+                        <!-- indication Column -->
+                        <ng-container matColumnDef="indication">
+                          <th mat-header-cell *matHeaderCellDef>Indication</th>
+                          <td mat-cell *matCellDef="let row; let inde = index;">
+                            <span *ngIf="!isRowEditParce || (indexEditRowparce != inde && indexEditRowBenef == i  && isRowEditParce) || (indexEditRowBenef != i && isRowEditParce)">
+                              {{row.indication}}
+                            </span>
+                            <span *ngIf="indexEditRowparce == inde && indexEditRowBenef == i  && isRowEditParce">
+                              {{ update_parce.indication }}
+                            </span> 
+                          </td>
+                        </ng-container>
+                        <ng-container matColumnDef="new_indication">
+                          <th mat-header-cell *matHeaderCellDef>
+                            {{ update_parce.indication }}
+                          </th>
+                        </ng-container>
+
+                        <ng-container matColumnDef="new_action">
+                          <th mat-header-cell *matHeaderCellDef>
+                            <div class="content-btn-done" fxLayout="row" fxLayoutGap="3px">
+                              <div class="child-row-btn">
+                                <button mat-icon-button ion-button icon-only class="btn-cancel" (click)="onCancelParce({src: 'add'})">
+                                  <mat-icon>
+                                    <img src="../../../../assets/icon/cancel_48px.png" alt="">
+                                  </mat-icon>
+                                </button>
+                              </div>
+                              <div class="child-row-btn">
+                                <button mat-icon-button ion-button icon-only class="btn-done" (click)="onSaveParce({src: 'add', elem_benef: element})">
+                                  <mat-icon>
+                                    <img src="../../../../assets/icon/Ok_48px.png" alt="">
+                                  </mat-icon>
+                                </button>
+                              </div>
+                            </div>
+                          </th>
+                        </ng-container>
+            
+                        <!-- action Column -->
+                        <ng-container matColumnDef="action">
+                          <th mat-header-cell *matHeaderCellDef>
+                            <button mat-icon-button class="btn-icon-add-niv2" (click)="onUpdatedParce({src: 'add', data_benef: element, index_: i})" [disabled] = "!isUpdate || isRowEditParce || isAddParce" style="width: 110px;">
+                              <mat-icon>
+                                <img src="../../../../assets/icon/Positive_48px.png" alt="" *ngIf="!isUpdate || isRowEditParce || isAddParce">
+                                <img src="../../../../assets/icon/Plus_48px.png" alt="" *ngIf="isUpdate && !isRowEditParce && !isAddParce">
+                              </mat-icon>
+                              <mat-label>
+                                Ajouter Parc
+                              </mat-label>
+                            </button>
+                          </th>
+                          <td mat-cell *matCellDef="let row; index as inde;">
+                            <span *ngIf="isUpdate && !isRowEditParce">
+                              <div class="content-btn" fxLayout="row" fxLayoutGap="2px">
+                                <div class="child-row">
+                                  <button mat-icon-button icon-only [class.btn-icon-edit-niv2]="row.etat === etat_sync || row.etat === etat_valide || row.etat === etat_update" [class.btn-icon-edit-disabled]="row.etat != etat_sync && row.etat != etat_valide && row.etat != etat_update" [disabled]="row.etat != etat_sync && row.etat != etat_valide && row.etat != etat_update" (click)="onUpdatedParce({src: 'edit', data_benef: element, data_parce: row, index_parce: inde, index_benef: i})">
+                                    <mat-icon>
+                                      <img src="../../../../assets/icon/Edit_50px.png" alt="" *ngIf="row.etat === etat_sync || row.etat === etat_valide || row.etat === etat_update">
+                                      <img src="../../../../assets/icon/edit_disabled.png" alt="" *ngIf="row.etat != etat_sync && row.etat != etat_valide && row.etat != etat_update">
+                                    </mat-icon>
+                                  </button>
+                                </div>
+                                <div class="child-row">
+                                  <button mat-icon-button icon-only [class.btn-icon-delete]="row.etat === etat_sync" [class.btn-icon-delete-disabled]="row.etat != etat_sync" [disabled]="row.etat != etat_sync" (click)="onDeleteParce(row)">
+                                    <mat-icon>
+                                      <img src="../../../assets/icon/delete.png" alt="" *ngIf="row.etat === etat_sync">
+                                      <img src="../../../assets/icon/delete_disabled.png" alt="" *ngIf="row.etat != etat_sync">
+                                    </mat-icon>
+                                  </button>
+                                </div>
+                              </div>
+                            </span>
+                            <span *ngIf="indexEditRowparce == inde && indexEditRowBenef == i  && isRowEditParce">
+                              <div class="content-btn-done" fxLayout="row" fxLayoutGap="3px">
+                                <div class="child-row-btn">
+                                  <button mat-icon-button ion-button icon-only class="btn-cancel" (click)="onCancelParce({src: 'edit'})">
+                                    <mat-icon>
+                                      <img src="../../../../assets/icon/cancel_48px.png" alt="">
+                                    </mat-icon>
+                                  </button>
+                                </div>
+                                <div class="child-row-btn">
+                                  <button mat-icon-button ion-button icon-only class="btn-done" (click)="onSaveParce({src: 'edit', elem_parce: row, elem_benef: element})">
+                                    <mat-icon>
+                                      <img src="../../../../assets/icon/Ok_48px.png" alt="">
+                                    </mat-icon>
+                                  </button>
+                                </div>
+                              </div>
+                            </span>
+                          </td>
+                        </ng-container>
+                    
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsParceBenef; sticky: true" class="header-row-2"></tr>
+                        <tr [hidden]="!isAddParce || indexEditRowBenef != i && isAddParce" mat-header-row *matHeaderRowDef="displayedColumnsAddParceBenef"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsParceBenef;" class="element-row hg-element-row"></tr>
+                    
+                        <!-- Row shown when there is no matching data. -->
+                        <tr class="mat-row" *matNoDataRow>
+                          <td class="mat-cell" colspan="10">Aucun enregistrement</td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="row expended-element-detail-vide" [@detailExpand]="!isUpdate && element.isExpanded && element.parcelle.length == 0? 'expanded' : 'collapsed'">
+                      <div mat-line>Aucun parcelle enregistrer</div>
+                    </div>
+        
+                  </td>
+                </ng-container>
+            
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsBenef; sticky: true" class="header-row-1"></tr>
+                <tr [hidden]="!isAddBenef" mat-header-row *matHeaderRowDef="displayedColumnsAddBenef; sticky: true" class="second-header-row"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsBenef;" class="element-row hg-element-row" [class.expanded-row]="row.isExpanded" [class.row-vide]="row.parcelle.length == 0"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+            
+                <!-- Row shown when there is no matching data. -->
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell" colspan="14">Aucun enregistrement"</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div>
+            <mat-paginator 
+              #benefPaginator 
+              [pageSizeOptions]="[25, 50]" 
+              aria-label="Select page of pms" 
+              showFirstLastButtons
+            ></mat-paginator>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Parcelle">
+      <div class="flex-container" fxLayout="column" fxLayoutGap="4px">
+        <!--Filtre parcelle-->
+        <div class="content-flex-header-filter" fxLayout="row" fxLayoutGap="8px">
+          <div class="child-row">
+            <mat-form-field>
+              <mat-label>Filtre par Bloc</mat-label>
+              <mat-select [(ngModel)]="selectedBloc" (ngModelChange)="applyFilterSelect($event, 'parcelle')">
+                <mat-option (click)="applyFilterTout('parcelle')" [value]="">tout</mat-option>
+                <mat-option *ngFor="let bloc of data_bloc" [value]="bloc">
+                  {{ bloc.nom_bloc }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="child-row">
+            <button mat-icon-button class="custom-mat-icon-export" (click)="onExport('parcelle')">
+              <mat-icon aria-label="retour">
+                <img src="../../../../assets/icon/Ms_excel_48px.png" alt="">
+              </mat-icon>
+              <mat-label>Exporter</mat-label>
+            </button>
+          </div>
+        </div>
+        <div class="container-matTab table-container mat-elevation-z8">
+          <table mat-table [dataSource]="dataSourceParcelle" matSort #parcelleSort="matSort">
+
+            <!-- Nom_bloc Column -->
+            <ng-container matColumnDef="nom_bloc">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Bloc </th>
+              <td mat-cell *matCellDef="let row"> {{row.bloc}} </td>
+            </ng-container>
+
+            <!-- code_parcelle Column -->
+            <ng-container matColumnDef="id_parce">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Code parce </th>
+              <td mat-cell *matCellDef="let row"> {{row.code_parce_temp}} </td>
+            </ng-container>
+  
+            <!-- code_benef Column -->
+            <ng-container matColumnDef="code_benef_bl">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Code benef </th>
+              <td mat-cell *matCellDef="let row"> {{row.code_benef_bl_temp}} </td>
+            </ng-container>
+  
+            <!-- nom_preom Column -->
+            <ng-container matColumnDef="nom">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
+              <td mat-cell *matCellDef="let row"> {{row.nom}} {{row.prenom}} </td>
+            </ng-container>
+
+            <!-- fokontany Column -->
+            <ng-container matColumnDef="cin">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>CIN</th>
+              <td mat-cell *matCellDef="let row">{{row.cin}}</td>
+            </ng-container>
+
+            <!-- fokontany Column -->
+            <ng-container matColumnDef="fokontany_benef">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Localité Benef</th>
+              <td mat-cell *matCellDef="let row">{{row.fokontany_benef}}</td>
+            </ng-container>
+  
+            <!-- surnom Column 
+            <ng-container matColumnDef="km_responsable">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> km Responsable </th>
+              <td mat-cell *matCellDef="let row"> </td>
+            </ng-container>-->
+  
+            <!-- fokontany Column -->
+            <ng-container matColumnDef="fokontany_parce">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Fokontany</th>
+              <td mat-cell *matCellDef="let row">{{row.fokontany_parce}}</td>
+            </ng-container>
+  
+            <!-- lat Column -->
+            <ng-container matColumnDef="lat">
+              <th mat-header-cell *matHeaderCellDef> lat </th>
+              <td mat-cell *matCellDef="let row"> {{row.lat}} </td>
+            </ng-container>
+  
+            <!-- log Column -->
+            <ng-container matColumnDef="log">
+              <th mat-header-cell *matHeaderCellDef> log </th>
+              <td mat-cell *matCellDef="let row"> {{row.log}} </td>
+            </ng-container>
+  
+            <!-- superficie Column -->
+            <ng-container matColumnDef="superficie">
+              <th mat-header-cell *matHeaderCellDef>Sfce</th>
+              <td mat-cell *matCellDef="let row"> {{row.superficie}} </td>
+            </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsParcelle; sticky: true" class="header-row-1"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsParcelle;" class="element-row hg-element-row">
+            </tr>
+        
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">Aucun enregistrement"</td>
+            </tr>
+          </table>
+        </div>
+        <div class="child-column1">
+          <mat-paginator 
+            #parcellePaginator 
+            [pageSizeOptions]="[25, 50]" 
+            aria-label="Select page of pms" 
+            showFirstLastButtons
+          ></mat-paginator>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</ion-content>

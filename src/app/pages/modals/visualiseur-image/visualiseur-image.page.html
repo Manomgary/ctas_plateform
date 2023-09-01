@@ -1,0 +1,46 @@
+<ion-content>
+  <div fxLayoutAlign="center center" fxFlexFill class="container">
+    <mat-card fxFlex="65" class="modal-card-img" style="background-color: rgb(0 0 0 / 77%);">
+      <mat-card-header class = "header-view-img">
+        <div class="content-header-modal width100"  fxLayout="row" style="justify-content: space-between;">
+          <div class="child-row" class="width100" style="text-align: center; color: white;">
+            <span *ngIf="isImgCinPR">{{elem_pr.code_pr_temp}} {{elem_pr.nom}} {{elem_pr.prenom}}</span>
+            <span *ngIf="isImgCinBl">{{elem_bl.code_benef_bl_temp}} {{elem_bl.nom}} {{elem_bl.prenom}}</span>
+            <span *ngIf="isImgCinPms">{{elem_pms.code_pms_temp}} {{elem_pms.nom_benef}} {{elem_pms.prenom}}</span>
+          </div>
+          <div class="child-row">
+            <button mat-raised-button class="btn-info" (click)="onClose()">Fermer</button>
+          </div>
+        </div>
+        <!--<mat-card-title>
+          
+        </mat-card-title>-->
+      </mat-card-header>
+      <mat-card-content>
+        <div class="content-img-view" fxLayout="row" fxLayoutAlign="center center">
+          <div class="child-row">
+            <ion-thumbnail slot="start" style="height: 365px; width: 100%;">
+              <ion-img [src]="fileImage_cin1.data" *ngIf="isViewImg1"></ion-img>
+              <ion-img [src]="fileImage_cin2.data" *ngIf="isViewImg2"></ion-img>
+              <ion-img [src]="fileImage" *ngIf="!isViewImg2 && !isViewImg1"></ion-img>
+            </ion-thumbnail>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions fxLayoutAlign="center center" fxFlexFill>
+        <div class="content-row" fxLayout="row" *ngIf="isImgCinPR  || isImgCinBl || isImgCinPms" fxLayoutGap="2px">
+          <div class="child-row">
+            <ion-thumbnail slot="start" [class.img-active]="isViewImg1" (click)="onShowImg('img-1')">
+              <ion-img [src]="fileImage_cin1.data"></ion-img>
+            </ion-thumbnail>
+          </div>
+          <div class="child-row">
+            <ion-thumbnail slot="start" [class.img-active]="isViewImg2" (click)="onShowImg('img-2')">
+              <ion-img [src]="fileImage_cin2.data"></ion-img>
+            </ion-thumbnail>
+          </div>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</ion-content>

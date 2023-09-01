@@ -1,0 +1,314 @@
+<ion-content>
+  <!--Content Semences en grains-->
+
+  <div fxLayoutAlign="center center" fxFlexFill class="container">
+    <!--<mat-card fxLayout="100" class="modal-card" style="max-width: 700px;"></mat-card>-->
+    <mat-card class="modal-card" style="max-width: 700px;">
+      <mat-card-header>
+        <mat-card-title>
+          <div class="width100" fxLayoutAlign="center center" fxLayout="column">
+            <div *ngIf="isAddMepSg" fxLayout="row" fxLayoutAlign="center center">
+              <div class="child-row">
+                <mat-icon class="mat-icon-header">
+                  <ion-img src="../../../../assets/icon/Plus_48px.png"></ion-img>
+                </mat-icon>
+              </div>
+              <div class="child-row">
+                Ajouter Mep Semences en grains
+              </div>
+            </div>
+            <div *ngIf="isAddMepPa" fxLayout="row" fxLayoutAlign="center center">
+              <div class="child-row">
+                <mat-icon class="mat-icon-header">
+                  <ion-img src="../../../../assets/icon/Plus_48px.png"></ion-img>
+                </mat-icon>
+              </div>
+              <div class="child-row">
+                Ajouter Mep Jeune Plants
+              </div>
+            </div>
+            <div *ngIf="isAddMepMv" fxLayout="row" fxLayoutAlign="center center">
+              <div class="child-row">
+                <mat-icon class="mat-icon-header">
+                  <ion-img src="../../../../assets/icon/Plus_48px.png"></ion-img>
+                </mat-icon>
+              </div>
+              <div class="child-row">
+                Ajouter Materiels vegetals
+              </div>
+            </div>
+            <div *ngIf="isEditMepSg" fxLayout="row" fxLayoutAlign="center center">
+              <div class="child-row">
+                <mat-icon class="mat-icon-header">
+                  <ion-img src="../../../../assets/icon/edith.png"></ion-img>
+                </mat-icon>
+              </div>
+              <div class="child-row">
+                Editer MEP Semences en grains
+              </div>
+            </div>
+            <div *ngIf="isEditMepPa" fxLayout="row" fxLayoutAlign="center center">
+              <div class="child-row">
+                <mat-icon class="mat-icon-header">
+                  <ion-img src="../../../../assets/icon/edith.png"></ion-img>
+                </mat-icon>
+              </div>
+              <div class="child-row">
+                Editer MEP Jeune Plants
+              </div>
+            </div>
+            <div *ngIf="isEditMepMv" fxLayout="row" fxLayoutAlign="center center">
+              <div class="child-row">
+                <mat-icon class="mat-icon-header">
+                  <ion-img src="../../../../assets/icon/edith.png"></ion-img>
+                </mat-icon>
+              </div>
+              <div class="child-row">
+                Editer MEP Materiels végetaux
+              </div>
+            </div>
+          </div>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="isAddMepSg || isEditMepSg || isAddMepMv || isEditMepMv || isAddMepPa || isEditMepPa">
+          <form [formGroup]="sg_paForm" (ngSubmit)="onFormSubmit()" class="contonair-flex">
+            <div fxLayout="column width100" fxLayoutGap="13px">
+              <!--Column 1: ANNEE, BLOC, BENEFICIAIRE-->
+              <div class="child-column-flex" fxLayout="row" fxLayoutGap="25px" style="margin-top: 5px;">
+                <!--Formulaire Annee-->
+                <div class="child-row-flex">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Année agricole</mat-label>
+                    <mat-select formControlName="annee">
+                      <mat-option *ngFor="let annee of data_annee_agricole" [value]="annee">
+                        {{ annee.annee_du }}-{{ annee.annee_au }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <!--Formulaire Bloc-->
+                <div class="child-row-flex">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Bloc</mat-label>
+                    <mat-select formControlName="bloc">
+                      <mat-option (click)="onSelectBloc()" *ngFor="let bloc of data_bloc" [value]="bloc">
+                        {{ bloc.nom_bloc }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>	
+                </div>
+                <!--Formulaire Beneficiaire-->
+                <div class="child-row-flex">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Beneficiaire</mat-label>
+                    <mat-select formControlName="beneficiaire">
+                      <mat-option (click)="onSelectBenef('tout')" *ngIf="data_benef_filtre.length > 0">Tout</mat-option>
+                      <mat-option (click)="onSelectBenef('filter')" *ngFor="let benef of data_benef_filtre" [value]="benef">
+                        {{benef.code_benef_bl_temp}} _ {{ benef.nom }} {{ benef.prenom }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Column 2: Parcelle, DDP, Espece-->
+              <div class="child-column-flex" fxLayout="row" fxLayoutGap="25px">
+                <!--Formulaire Parcelle-->
+                <div class="child-row-flex">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Parcelle</mat-label>
+                    <mat-select formControlName="parcelle">
+                      <mat-option (click)="onSelectParce()" *ngFor="let parce of data_parcelle_filter" [value]="parce">
+                        {{ parce.code_parce_temp }} :: {{ parce.superficie }} m²
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <!--Formulaire DDP-->
+                <div class="child-row-flex">
+                  <mat-form-field appearance="fill" class="custom-mat-date">
+                    <mat-label>DDP(jj/mm/AAAA)</mat-label>
+                    <input matInput [matDatepicker]="ddp_" formControlName="ddp">
+                    <mat-datepicker-toggle matSuffix [for]="ddp_" disabled></mat-datepicker-toggle>
+                    <mat-datepicker #ddp_ disabled="false"></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <!--Formulaire Espece-->
+                <div class="child-row-flex">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Espece</mat-label>
+                    <mat-select formControlName="espece">
+                      <mat-option>--Aucune--</mat-option>
+                      <mat-option (click)="onSelectEspece()" *ngFor="let espece of data_espece" [value]="espece">
+                        {{ espece.nom_espece }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Column 3: Variette, Saison, Qso, DT_MEP, DDT-->
+              <div class="child-column-flex" fxLayout="row" fxLayoutGap="25px">
+                <!--Formulaire Variette-->
+                <div class="child-row-flex" *ngIf="isAddMepSg || isEditMepSg">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Variette</mat-label>
+                    <mat-select formControlName="variette">
+                      <mat-option>none</mat-option>
+                      <mat-option *ngFor="let variette of data_variette_filter" [value]="variette">
+                        {{ variette.nom_var }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>	
+                </div>
+                <!--Formulaire Saison-->
+                <div class="child-row-flex" *ngIf="isCultureSaisonnier || (!isEditMepPa && !isAddMepPa && !isAddMepMv && !isEditMepMv)">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Saison</mat-label>
+                    <mat-select formControlName="saison">
+                      <mat-option></mat-option>
+                      <mat-option *ngFor="let saison of data_saison" [value]="saison">
+                        <!--{{ saison.description }}-->
+                        {{ saison.description }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>	
+                </div>
+                <!--Formulaire QSO-->
+                <div class="child-row-flex">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label *ngIf="isAddMepSg || isEditMepSg || isAddMepMv || isEditMepMv">QSO  <span *ngIf="espece_unite != null">en {{espece_unite}}</span></mat-label>
+                    <mat-label *ngIf="isAddMepPa || isEditMepPa">QO <span *ngIf="espece_unite != null">en {{espece_unite}}</span></mat-label>
+                    <input matInput type="number" maxLength="5" placeholder="Quantité Obtenu!" formControlName="qso">
+                  </mat-form-field>	
+                </div>
+                <!--Formulaire Date de mise en place-->
+                <div class="child-row-flex" *ngIf="isAddMepPa || isEditMepPa || isAddMepMv || isEditMepMv">
+                  <mat-form-field appearance="fill" class="custom-mat-date">
+                    <mat-label >dt_mep(jj/mm/AAAA)</mat-label>
+                    <input matInput [matDatepicker]="dt_mep" formControlName="dds">
+                    <mat-datepicker-toggle matSuffix [for]="dt_mep" disabled></mat-datepicker-toggle>
+                    <mat-datepicker #dt_mep disabled="false"></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <!--Formulaire Date de distribution-->
+                <div class="child-row-flex" *ngIf="isEditMepPa || isAddMepPa">
+                  <mat-form-field appearance="fill" class="custom-mat-date">
+                    <mat-label>Dt de distribution(jj/mm/AAAA)</mat-label>
+                    <input matInput [matDatepicker]="ddd_" formControlName="dt_distribution">
+                    <mat-datepicker-toggle matSuffix [for]="ddd_" disabled></mat-datepicker-toggle>
+                    <mat-datepicker #ddd_ disabled="false"></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Column 4: DDS, Sfce, SC-->
+              <div class="child-column-flex" fxLayout="row" *ngIf="!isEditMepPa && !isAddMepPa" fxLayoutGap="25px">
+                <!--Formulaire DDS-->
+                <div class="child-row-flex" *ngIf="isAddMepSg || isEditMepSg">
+                  <mat-form-field appearance="fill" class="custom-mat-date">
+                    <mat-label>DDS(jj/mm/AAAA)</mat-label>
+                    <input matInput [matDatepicker]="dds_" formControlName="dds">
+                    <mat-datepicker-toggle matSuffix [for]="dds_" disabled></mat-datepicker-toggle>
+                    <mat-datepicker #dds_ disabled="false"></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <!--Formulaire Systeme Cultural<-->
+                <div class="child-row-flex">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Systeme cultural</mat-label>
+                    <mat-select formControlName="sc">
+                      <mat-option (click)="onNone('sc')" *ngIf="isAddMepMv || isEditMepMv">--Aucun--</mat-option>
+                      <mat-option (click)="onSeletSc()" *ngFor="let sc of data_sc" [value]="sc">
+                        {{ sc.description }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <!--Formulaire sfce emblavée-->
+                <div class="child-row-flex" *ngIf="!isCultureBande">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>sfce emblavée (m²)</mat-label>
+                    <input matInput type="number" placeholder="Merci de saisissez!" formControlName="sfce">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Column 5 Systeme Cultural Bande-->
+              <div class="child-column-flex" fxLayout="row" *ngIf="isCultureBande || isEditMepPa || isAddMepPa" fxLayoutGap="25px">
+                <!--Formulaire Nombre Ligne-->
+                <div class="child-row-flex">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Nombre de ligne</mat-label>
+                    <input matInput type="number" placeholder="Merci de saisissez!" formControlName="nbre_ligne">
+                  </mat-form-field>
+                </div>
+                <!--Formulaire Longueur Ligne-->
+                <div class="child-row-flex">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Longueur de lignes(m)</mat-label>
+                    <input matInput type="number" placeholder="Merci de saisissez!" formControlName="long_ligne">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!--Column 6 Culture Associé-->
+              <div class="child-column-flex" fxLayout="row" *ngIf="isAssocie" fxLayoutGap="25px">
+                <div class="child-row-flex">
+                  <!--Formulaire 1-->
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Categrie associé</mat-label>
+                    <mat-select formControlName="categorie_ea">
+                      <mat-option (click)="onSeletCateg('autre')">Autres</mat-option>
+                      <mat-option (click)="onSeletCateg('categorie')" *ngFor="let catego of data_categ" [value]="catego">
+                        {{ catego.libelle }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="child-row-flex" *ngIf="!isSelectedAutreCulte">
+                  <!--Formulaire 2-->
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>Espece associé</mat-label>
+                    <mat-select formControlName="espece_ea">
+                      <mat-option (click)="onSelectEspeceEa()" *ngFor="let espece of data_espece_filter_ea" [value]="espece">
+                        {{ espece.nom_espece }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="child-row-flex" *ngIf="!isSelectedAutreCulte">
+                  <!--Formulaire 3-->
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>variette associé</mat-label>
+                    <mat-select formControlName="variette_ea">
+                      <mat-option>none</mat-option>
+                      <mat-option *ngFor="let variette of data_variette_filter_ea" [value]="variette">
+                        {{ variette.nom_var }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>	
+                </div>
+                <div class="child-row-flex" *ngIf="isSelectedAutreCulte">
+                  <mat-form-field appearance="outline" class="custom-mat-field-outline">
+                    <mat-label>autres culture</mat-label>
+                    <input matInput placeholder="Merci de saisissez!" formControlName="autreCultureEa">
+                  </mat-form-field>	
+                </div>
+              </div>
+              <div class="child-column-flex" fxLayout="row" fxLayoutGap="15px">
+                <div class="child-row">
+                  <button mat-raised-button class="btn-annuler" round (click)="onDismiss('mep-sg')" *ngIf="isAddMepSg || isEditMepSg">Annuler</button>
+                  <button mat-raised-button class="btn-annuler" round (click)="onDismiss('mep-mv')" *ngIf="isAddMepMv || isEditMepMv">Annuler</button>
+                  <button mat-raised-button class="btn-annuler" round (click)="onDismiss('mep-pa')" *ngIf="isAddMepPa || isEditMepPa">Annuler</button>
+                </div>
+                <div class="child-row">
+                  <button mat-raised-button class="btn-valider" [disabled]="!sg_paForm.valid || isValidate">Valider</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </mat-card-content>
+      <mat-card-actions fxLayoutAlign="center center" fxFlexFill>
+
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</ion-content>
