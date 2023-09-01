@@ -28,7 +28,6 @@ npm-debug.log*
 /src-orginal
 /src/assets
 /resources
-/e2e
 /coverage
 /dist
 /node_modules
