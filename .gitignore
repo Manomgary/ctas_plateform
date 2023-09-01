@@ -26,7 +26,6 @@ npm-debug.log*
 /.vscode
 /android
 /src-orginal
-/src/version-config-project-copy
 /src/assets
 /resources
 /e2e
