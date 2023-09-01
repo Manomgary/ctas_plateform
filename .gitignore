@@ -29,7 +29,6 @@ npm-debug.log*
 /src/version-config-project-copy
 /src/assets
 /resources
-/typings
 /e2e
 /coverage
 /dist
